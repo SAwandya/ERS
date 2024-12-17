@@ -2,14 +2,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import GlobalStyles from "@mui/material/GlobalStyles";
-
-import { AuthGuard } from "@/components/auth/auth-guard";
-import { MainNav } from "@/components/dashboard/layout/main-nav";
+import { MainNav } from "./MainNav";
 import { SideNav } from "@/components/dashboard/layout/side-nav";
 
 const Layout = ({ children }) => {
   return (
-    <AuthGuard>
+    <>
       <GlobalStyles
         styles={{
           body: {
@@ -48,6 +46,8 @@ const Layout = ({ children }) => {
           </main>
         </Box>
       </Box>
-    </AuthGuard>
+    </>
   );
 }
+
+export default Layout;
