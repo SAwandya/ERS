@@ -1,16 +1,20 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Layout from './components/dashboard/Layout'
+// App.jsx
+import { Box, CssBaseline } from "@mui/material";
+import Topbar from "./components/Topbar";
+import Dashboard from "./components/Dashboard";
+import Sidebar from "./components/SideBar";
 
 function App() {
-
   return (
-    <>
-     <Layout/>
-    </>
-  )
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <Sidebar/>
+      <Box sx={{ flexGrow: 1 }}>
+        <Topbar />
+        <Dashboard />
+      </Box>
+    </Box>
+  );
 }
 
-export default App
+export default App;
