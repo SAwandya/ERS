@@ -10,11 +10,7 @@ function App() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Sidebar/>
-      <Box sx={{ flexGrow: 1 }}>
-        <Topbar />
-        <Dashboard />
-      </Box>
+      <RouterProvider router={router} />
     </Box>
   );
 }
