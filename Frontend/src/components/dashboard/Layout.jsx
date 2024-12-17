@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { MainNav } from "./MainNav";
-import { SideNav } from "@/components/dashboard/layout/side-nav";
+import { SideNav } from "./SideNav";
 
 const Layout = ({ children }) => {
   return (
