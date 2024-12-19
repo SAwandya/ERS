@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       {
         path: "/addnewcv",
         element: (
-            <ViewAllCv />
+            <AddNewCv />
         ),
       },
       {
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       {
         path: "/approvedcv",
         element: (
-            <AddNewCv/>
+            <ViewAllCv/>
         ),
       },
     
