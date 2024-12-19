@@ -45,7 +45,11 @@ const Sidebar = () => {
     {
       text: "Integrations",
       icon: <IntegrationInstructionsIcon />,
-      path: "/integrations",
+      isDropdown: true,
+      subItems: [
+        { text: "Add New CV", path: "/integrations" },
+        { text: "View All CV", path: "/integrations" },
+      ],
     },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
     { text: "Account", icon: <AccountCircleIcon />, path: "/account" },
