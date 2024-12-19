@@ -6,6 +6,15 @@ const AddNewCv = () => {
   const onSubmit = (data) => console.log(data);
 
   const fields1 = [
+    {
+      name: "gender",
+      label: "GENDER",
+      type: "radio",
+      options: [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+      ],
+    },
     { name: "firstName", label: "First Name", type: "text" },
     { name: "lastName", label: "Last Name", type: "text" },
     { name: "email", label: "Email", type: "email" },
