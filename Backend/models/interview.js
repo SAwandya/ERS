@@ -25,6 +25,10 @@ const interviewSchema = new mongoose.Schema({
     notes: {
         type: String,
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 const Interview = mongoose.model("Interview", interviewSchema);
@@ -37,6 +41,7 @@ function validateInterview(interview) {
         schema: Joi.string().required(),
         location: Joi.string().required(),
         notes: Joi.string(),
+        user: Joi.objectId()
     });
 
     return schema.validate(interview);
