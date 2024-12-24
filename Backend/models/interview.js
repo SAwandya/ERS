@@ -29,6 +29,10 @@ const interviewSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    status: {
+        type: Boolean,       //pass of fail
+
+    }
 });
 
 const Interview = mongoose.model("Interview", interviewSchema);
@@ -41,7 +45,8 @@ function validateInterview(interview) {
         schema: Joi.string().required(),
         location: Joi.string().required(),
         notes: Joi.string(),
-        user: Joi.objectId()
+        user: Joi.objectId(),
+        status: Joi.boolean(),
     });
 
     return schema.validate(interview);
