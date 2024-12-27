@@ -27,49 +27,41 @@ const ReusableForm = ({ fields, onSubmit }) => {
                   <Divider />
                 </Grid>
               );
-            } else if (field.type === "middelContentRight") {
-              // Render a horizontal line for separation
+            } else if (
+              field.type === "middelContentRight" ||
+              field.type === "fullcontent"
+            ) {
+              // Render a specific content block
               return (
-                <Grid item xs={12} sm={6} key={`separator-${index}`}>
-                  <Box>
-                    {" "}
-                    <Typography
-                      sx={{
-                        textAlign: "left",
-                        color: "#2E5077",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {field.label}
-                    </Typography>
-                  </Box>
+                <Grid
+                  item
+                  xs={field.gridSize?.xs || 12}
+                  sm={field.gridSize?.sm || 6}
+                  md={field.gridSize?.md || 6}
+                  key={`content-${index}`}
+                >
+                  <Typography
+                    sx={{
+                      textAlign: "left",
+                      color: "#2E5077",
+                      fontSize: 16,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {field.label}
+                  </Typography>
                 </Grid>
               );
-            }else if(field.type === "fullcontent"){
-              
-              return (
-                <Grid item xs={12} sm={6} key={`separator-${index}`}>
-                  <Box>
-                    {" "}
-                    <Typography
-                      sx={{
-                        textAlign: "left",
-                        color: "#2E5077",
-                        fontSize: 16,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {field.label}
-                    </Typography>
-                  </Box>
-                </Grid>
-              );
-
-            }else {
+            } else {
               // Render input fields
               return (
-                <Grid item xs={12} sm={6} key={field.name}>
+                <Grid
+                  item
+                  xs={field.gridSize?.xs || 12}
+                  sm={field.gridSize?.sm || 6}
+                  md={field.gridSize?.md || 6}
+                  key={field.name}
+                >
                   <InputField
                     name={field.name}
                     label={field.label}
