@@ -1,4 +1,3 @@
-// InputField.jsx
 import React from "react";
 import { useController } from "react-hook-form";
 import { TextField, Select, MenuItem } from "@mui/material";
@@ -8,7 +7,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-const InputField = ({ name, label, type = "text", options = [], control }) => {
+const InputField = ({
+  name,
+  label,
+  type = "text",
+  options = [],
+  control,
+  onChange,
+}) => {
   const {
     field,
     fieldState: { error },
@@ -22,6 +28,10 @@ const InputField = ({ name, label, type = "text", options = [], control }) => {
       variant: "outlined",
       error: !!error,
       sx: { mb: 1 },
+      onChange: (e) => {
+        field.onChange(e); // Update react-hook-form state
+        if (onChange) onChange(e); // Call custom onChange handler
+      },
     };
 
     switch (type) {
@@ -40,15 +50,17 @@ const InputField = ({ name, label, type = "text", options = [], control }) => {
       case "radio":
         return (
           <FormControl>
-            <FormLabel id="demo-radio-buttons-group-label">{label}</FormLabel>
+            <FormLabel>{label}</FormLabel>
             <RadioGroup
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              name="radio-buttons-group"
               {...commonProps}
+              onChange={(e) => {
+                field.onChange(e);
+                if (onChange) onChange(e);
+              }}
             >
               {options?.map((option) => (
                 <FormControlLabel
+                  key={option.value}
                   value={option.value}
                   control={<Radio />}
                   label={option.label}

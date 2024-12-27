@@ -13,40 +13,60 @@ const ReusableForm = ({ fields, onSubmit }) => {
         <Grid container spacing={6}>
           {fields?.map((field, index) => {
             if (field.type === "title") {
-              <Typography
-                sx={{
-                  textAlign: "left",
-                  color: "#4C585B",
-                  fontSize: 24,
-                }}
-              >
-                {field.label}
-              </Typography>;
-              <Divider />;
-
               return (
                 <Grid item xs={12} key={`title-${index}`}>
                   <Typography
-                    variant="h6"
-                    sx={{ marginTop: 2, marginBottom: 1, fontWeight: "bold" }}
+                    sx={{
+                      textAlign: "left",
+                      color: "#4C585B",
+                      fontSize: 20,
+                    }}
                   >
                     {field.label}
                   </Typography>
+                  <Divider />
                 </Grid>
               );
-            } else if (field.type === "separator") {
+            } else if (field.type === "middelContentRight") {
               // Render a horizontal line for separation
               return (
-                <Grid item xs={12} key={`separator-${index}`}>
-                  <Box
-                    sx={{
-                      borderTop: "1px solid #ccc",
-                      margin: "16px 0",
-                    }}
-                  />
+                <Grid item xs={12} sm={6} key={`separator-${index}`}>
+                  <Box>
+                    {" "}
+                    <Typography
+                      sx={{
+                        textAlign: "left",
+                        color: "#2E5077",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {field.label}
+                    </Typography>
+                  </Box>
                 </Grid>
               );
-            } else {
+            }else if(field.type === "fullcontent"){
+              
+              return (
+                <Grid item xs={12} sm={6} key={`separator-${index}`}>
+                  <Box>
+                    {" "}
+                    <Typography
+                      sx={{
+                        textAlign: "left",
+                        color: "#2E5077",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {field.label}
+                    </Typography>
+                  </Box>
+                </Grid>
+              );
+
+            }else {
               // Render input fields
               return (
                 <Grid item xs={12} sm={6} key={field.name}>
@@ -56,6 +76,7 @@ const ReusableForm = ({ fields, onSubmit }) => {
                     type={field.type}
                     options={field.options}
                     control={control}
+                    onChange={field.onChange}
                   />
                 </Grid>
               );

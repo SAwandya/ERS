@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  nameWithIntials: {
+  nameWithInitials: {
     type: String,
     required: true,
   },
@@ -128,7 +128,7 @@ function validateUser(user) {
   const schema = Joi.object({
     fullName: Joi.string().min(3).required(),
     password: Joi.string().min(6).required(),
-    nameWithIntials: Joi.string().required(),
+    nameWithInitials: Joi.string().required(),
     postalAddress: Joi.string().required(),
     district: Joi.string().required(),
     nic: Joi.string()
