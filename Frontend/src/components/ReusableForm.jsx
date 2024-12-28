@@ -42,7 +42,7 @@ const ReusableForm = ({ fields, onSubmit }) => {
                 >
                   <Typography
                     sx={{
-                      textAlign: "left",
+                      textAlign: field.type === "middelContentRight" ? "right" : "left",
                       color: "#2E5077",
                       fontSize: 16,
                       fontWeight: "bold",
