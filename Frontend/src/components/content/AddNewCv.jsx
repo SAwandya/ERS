@@ -186,6 +186,12 @@ const AddNewCv = () => {
       label: "INTERNSHIP REQUEST LETTER(INSTITUTES)",
       type: "file",
     },
+    {
+      name: "trueAndCorrect",
+      label: "True and Correct",
+      type: "checkbox",
+      options: [{ value: true, label: "True and Correct" }],
+    },
   ];
 
   // const fields2 = [

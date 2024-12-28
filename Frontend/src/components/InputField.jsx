@@ -1,11 +1,16 @@
 import React from "react";
 import { useController } from "react-hook-form";
-import { TextField, Select, MenuItem } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import {
+  TextField,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio,
+} from "@mui/material";
 
 const InputField = ({
   name,
@@ -69,6 +74,25 @@ const InputField = ({
             </RadioGroup>
           </FormControl>
         );
+      case "checkbox":
+        return options?.map((option) => (
+          <FormControlLabel
+            key={option.value}
+            control={
+              <Checkbox
+                checked={field.value?.includes(option.value) || false}
+                onChange={(e) => {
+                  const value = e.target.checked
+                    ? [...(field.value || []), option.value]
+                    : field.value?.filter((v) => v !== option.value);
+                  field.onChange(value); // Update react-hook-form state
+                  if (onChange) onChange(value); // Call custom onChange handler
+                }}
+              />
+            }
+            label={option.label}
+          />
+        ));
       default:
         return <TextField {...commonProps} type={type} label={label} />;
     }
