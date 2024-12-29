@@ -18,12 +18,13 @@ const InputField = ({
   type = "text",
   options = [],
   control,
+  rules = {}, // Accept validation rules as props
   onChange,
 }) => {
   const {
     field,
     fieldState: { error },
-  } = useController({ name, control });
+  } = useController({ name, control, rules });
 
   const renderInput = () => {
     const commonProps = {
@@ -42,13 +43,15 @@ const InputField = ({
     switch (type) {
       case "select":
         return (
-          <Select {...commonProps} label={label}>
-            {options?.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </Select>
+          <FormControl fullWidth>
+            <Select {...commonProps} label={label}>
+              {options?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         );
       case "date":
         return <TextField {...commonProps} type="date" label={label} />;

@@ -4,6 +4,7 @@ import AddNewCv from "./components/content/AddNewCv";
 import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -38,10 +39,10 @@ const router = createBrowserRouter([
     ],
   },
 
-//   {
-//     path: "/signup",
-//     element: <RegisterForm />,
-//   },
+  {
+    path: "/signup",
+    element: <Register />,
+  },
 
 //   {
 //     path: "/signin",

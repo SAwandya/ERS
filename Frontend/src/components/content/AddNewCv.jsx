@@ -3,8 +3,6 @@ import ReusableForm from "../ReusableForm";
 import { Box, Typography } from "@mui/material";
 
 const AddNewCv = () => {
-  const includeExtraFields = false;
-
   const [applyas, setApplyas] = React.useState(null);
 
   const onSubmit = (data) => {
@@ -22,25 +20,79 @@ const AddNewCv = () => {
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
       ],
+      rules: { required: "Gender is required" },
     },
     {
       name: "fullName",
       label: "FULL NAME",
       type: "text",
+      rules: { required: "Full Name is required" },
     },
     {
       name: "nameWithIntials",
-      label: "NAME WITH INITIALS ",
+      label: "NAME WITH INITIALS",
       type: "text",
+      rules: { required: "Name with initials is required" },
     },
-    { name: "postalAddress", label: "POSTAL ADDRESS", type: "text" },
-    { name: "district", label: "DISTRICT", type: "text" },
-    { name: "dateOfBirth", label: "DATE OF BIRTH", type: "date" },
-    { name: "nic", label: "NIC", type: "text" },
-    { name: "mobileNo", label: "MOBILE NUMBER", type: "number" },
-    { name: "LandPhoneNo", label: "LAND PHONE NUMBER", type: "number" },
-    { name: "LandPhoneNo", label: "LAND PHONE NUMBER", type: "number" },
-    { name: "email", label: "EMAIL", type: "email" },
+    {
+      name: "postalAddress",
+      label: "POSTAL ADDRESS",
+      type: "text",
+      rules: { required: "Postal address is required" },
+    },
+    {
+      name: "district",
+      label: "DISTRICT",
+      type: "text",
+      rules: { required: "District is required" },
+    },
+    {
+      name: "dateOfBirth",
+      label: "DATE OF BIRTH",
+      type: "date",
+      rules: { required: "Date of birth is required" },
+    },
+    {
+      name: "nic",
+      label: "NIC",
+      type: "text",
+      rules: {
+        required: "NIC is required",
+        pattern: {
+          value: /^[0-9]{9}[vVxX]|[0-9]{12}$/,
+          message: "NIC must be 9 digits followed by 'v/V' or 12 digits",
+        },
+      },
+    },
+    {
+      name: "mobileNo",
+      label: "MOBILE NUMBER",
+      type: "number",
+      rules: {
+        required: "Mobile number is required",
+        minLength: {
+          value: 10,
+          message: "Mobile number must be 10 digits",
+        },
+      },
+    },
+    {
+      name: "LandPhoneNo",
+      label: "LAND PHONE NUMBER",
+      type: "number",
+    },
+    {
+      name: "email",
+      label: "EMAIL",
+      type: "email",
+      rules: {
+        required: "Email is required",
+        pattern: {
+          value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+          message: "Invalid email format",
+        },
+      },
+    },
     {
       name: "institute",
       label: "INSTITUTE",
@@ -49,9 +101,10 @@ const AddNewCv = () => {
         { value: "sliit", label: "SLIIT" },
         { value: "iit", label: "IIT" },
       ],
+      rules: { required: "Institute is required" },
     },
 
-    { type: "title", label: "Type Of Intership And Qualifications" },
+    { type: "title", label: "Type Of Internship And Qualifications" },
 
     {
       name: "ApplyAs",
@@ -62,11 +115,7 @@ const AddNewCv = () => {
         { value: "internship", label: "INTERNSHIP" },
       ],
       onChange: (e) => setApplyas(e.target.value),
-    },
-    {
-      type: "middelContentRight",
-      label:
-        "Internships for who are following higher educational programmes in recognized institutes which require an internship period as part of the programme",
+      rules: { required: "Please select an application type" },
     },
     {
       type: "fullcontent",
@@ -74,17 +123,15 @@ const AddNewCv = () => {
         "O/L RESULT FOR MATHS, SCIENCE AND ENGLISH ARE COMPULSORY. PLEASE USE THIS FORMAT TO ENTER YOUR RESULTS - (SUBJECT: RESULT)",
       gridSize: { md: 12 },
     },
-    // Add extra fields conditionally
-
-    { name: "olsubject1", label: "subject 01", type: "text" },
-    { name: "olsubject2", label: "subject 02", type: "text" },
-    { name: "olsubject3", label: "subject 03", type: "text" },
-    { name: "olsubject4", label: "subject 04", type: "text" },
-    { name: "olsubject5", label: "subject 05", type: "text" },
-    { name: "olsubject6", label: "subject 06", type: "text" },
-    { name: "olsubject7", label: "subject 07", type: "text" },
-    { name: "olsubject8", label: "subject 08", type: "text" },
-    { name: "olsubject9", label: "subject 09", type: "text" },
+    { name: "olsubject1", label: "Subject 01", type: "text" },
+    { name: "olsubject2", label: "Subject 02", type: "text" },
+    { name: "olsubject3", label: "Subject 03", type: "text" },
+    { name: "olsubject4", label: "Subject 04", type: "text" },
+    { name: "olsubject5", label: "Subject 05", type: "text" },
+    { name: "olsubject6", label: "Subject 06", type: "text" },
+    { name: "olsubject7", label: "Subject 07", type: "text" },
+    { name: "olsubject8", label: "Subject 08", type: "text" },
+    { name: "olsubject9", label: "Subject 09", type: "text" },
 
     { type: "title", label: "" },
 
@@ -94,18 +141,16 @@ const AddNewCv = () => {
       gridSize: { md: 12 },
     },
 
-    { name: "alsubject1", label: "subject 01", type: "text" },
-    { name: "alsubject2", label: "subject 02", type: "text" },
-    { name: "alsubject3", label: "subject 03", type: "text" },
-    { name: "alsubject4", label: "subject 04", type: "text" },
+    { name: "alsubject1", label: "Subject 01", type: "text" },
+    { name: "alsubject2", label: "Subject 02", type: "text" },
+    { name: "alsubject3", label: "Subject 03", type: "text" },
+    { name: "alsubject4", label: "Subject 04", type: "text" },
     {
       name: "generalInfo",
       label: "GCE A/L GENERAL INFORMATION ON TECHNOLOGY BY",
       type: "text",
       gridSize: { md: 12 },
     },
-
-    { type: "title", label: "" },
 
     ...(applyas === "internship"
       ? [
@@ -124,11 +169,13 @@ const AddNewCv = () => {
                 label: "HUMAN RESOURCE INTERN",
               },
             ],
+            rules: { required: "Please select a category" },
           },
           {
             name: "HigherEducation",
-            label: "HIGHER EDUCATION QULIFICATIONS",
+            label: "HIGHER EDUCATION QUALIFICATIONS",
             type: "text",
+            rules: { required: "Higher education details are required" },
           },
         ]
       : [
@@ -140,8 +187,9 @@ const AddNewCv = () => {
               { value: "head_office", label: "HEAD OFFICE" },
               { value: "matara_branch", label: "MATARA BRANCH" },
             ],
+            rules: { required: "Preferred location is required" },
           },
-        ]), // Add nothing if condition is false
+        ]),
 
     { name: "otherQualification", label: "OTHER QUALIFICATIONS", type: "text" },
 
@@ -152,10 +200,11 @@ const AddNewCv = () => {
       name: "contactNumber1",
       label: "EMERGENCY CONTACT NUMBER 01",
       type: "number",
+      rules: { required: "Emergency contact number is required" },
     },
     { name: "contactName2", label: "EMERGENCY CONTACT NAME 02", type: "text" },
     {
-      name: "contactNumber1",
+      name: "contactNumber2",
       label: "EMERGENCY CONTACT NUMBER 02",
       type: "number",
     },
@@ -164,48 +213,42 @@ const AddNewCv = () => {
 
     {
       name: "previouseTrainingSlt",
-      label: "HAVE YOU UNDERGONE THROUGH PREVIOUS TRAINING AT SLT",
+      label: "HAVE YOU UNDERGONE PREVIOUS TRAINING AT SLT",
       type: "radio",
       options: [
         { value: true, label: "Yes" },
         { value: false, label: "No" },
       ],
+      rules: { required: "This field is required" },
     },
 
     { type: "title", label: "Upload Documents" },
 
-    { name: "cvLink", label: "ATTACHED YOUR UPDATED CV", type: "file" },
-    { name: "nicLink", label: "NIC(BOTH SIDES)", type: "file" },
+    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "file" },
+    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "file" },
     {
       name: "policeCertificateLink",
-      label: "POLICE CLEARANCE REPORT(OPTIONAL)",
+      label: "POLICE CLEARANCE REPORT (OPTIONAL)",
       type: "file",
     },
     {
       name: "InternshipRequestLetterLink",
-      label: "INTERNSHIP REQUEST LETTER(INSTITUTES)",
+      label: "INTERNSHIP REQUEST LETTER (INSTITUTE)",
       type: "file",
     },
     {
       name: "trueAndCorrect",
       label: "True and Correct",
       type: "checkbox",
-      options: [{ value: true, label: "True and Correct" }],
+      options: [
+        {
+          value: true,
+          label: "I confirm the above information is true and correct",
+        },
+      ],
+      rules: { required: "You must agree to proceed" },
     },
   ];
-
-  // const fields2 = [
-  //   {
-  //     name: "gender",
-  //     label: "Gender",
-  //     type: "select",
-  //     options: [
-  //       { value: "male", label: "Male" },
-  //       { value: "female", label: "Female" },
-  //     ],
-  //   },
-  //   { name: "dob", label: "Date of Birth", type: "date" },
-  // ];
 
   return (
     <Box
@@ -216,27 +259,16 @@ const AddNewCv = () => {
         boxShadow: "0 0 10px rgba(0,0,0,0.1)",
       }}
     >
-      {" "}
       <Typography
         sx={{
           textAlign: "left",
-          color: "#4C585B",
+          mb: 4,
+          color: "#2e2e2e",
           fontSize: 24,
-          marginLeft: 7,
+          fontWeight: "bold",
         }}
       >
-        NEW CV
-      </Typography>
-      <Typography
-        sx={{
-          textAlign: "left",
-          color: "#4C585B",
-          fontSize: 17,
-          marginBottom: 4,
-          marginLeft: 7,
-        }}
-      >
-        You can add new cv and later shedule an interview for them
+        ADD NEW CV
       </Typography>
       <ReusableForm fields={fields1} onSubmit={onSubmit} />
     </Box>

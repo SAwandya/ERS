@@ -67,6 +67,7 @@ const ReusableForm = ({ fields, onSubmit }) => {
                     label={field.label}
                     type={field.type}
                     options={field.options}
+                    rules={field.rules} // Pass validation rules
                     control={control}
                     onChange={field.onChange}
                   />
