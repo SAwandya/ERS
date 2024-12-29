@@ -25,13 +25,13 @@ const router = createBrowserRouter([
       {
         path: "/viewallcv",
         element: (
-            <ApprovedCv />
+            <ViewAllCv />
         ),
       },
       {
         path: "/approvedcv",
         element: (
-            <ViewAllCv/>
+            <ApprovedCv/>
         ),
       },
     

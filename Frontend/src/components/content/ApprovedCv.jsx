@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from '@mui/material';
-import React from 'react'
-import ReusableTable from '../ReusableTable';
+import { Box, Button, Typography } from "@mui/material";
+import React from "react";
+import ReusableTable from "../ReusableTable";
 
 const ApprovedCv = () => {
   // Example data
@@ -95,24 +95,28 @@ const ApprovedCv = () => {
       sx={{
         padding: 7,
         maxWidth: "1250px",
-        margin: "0 auto",
+        margin: "30px auto",
         boxShadow: "0 0 10px rgba(0,0,0,0.1)",
       }}
     >
       {" "}
-      <Typography
-        sx={{
-          textAlign: "left",
-          color: "#4C585B",
-          fontSize: 24,
-          marginLeft: 7,
-        }}
-      >
-        Approve CVs (CVs to be approved)
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+        <Typography
+          sx={{
+            textAlign: "left",
+            color: "#4C585B",
+            fontSize: 24,
+          }}
+        >
+          Approve CVs (CVs to be approved)
+        </Typography>
+        <Button color="primary" variant="contained">
+          Approve CVs
+        </Button>
+      </Box>
       <ReusableTable rows={rows} columns={columns} title="Nutrition Table" />
     </Box>
   );
-}
+};
 
-export default ApprovedCv
+export default ApprovedCv;
