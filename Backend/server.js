@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const session = require("express-session");
+const user = require("./routes/user");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -25,6 +26,8 @@ app.use(
     cookie: { secure: process.env.NODE_ENV === "production" },
   })
 );
+
+app.use("/api/user", user);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

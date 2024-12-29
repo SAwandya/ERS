@@ -1,56 +1,53 @@
 const express = require("express");
-const { User, validate } = require("../models/user"); // Assuming the user model is in a "models" folder
+const { User, validate } = require("../models/user");
+const mongoose = require("mongoose");
+
 const router = express.Router();
 
-// Create a new user
+// CREATE a new user
 router.post("/", async (req, res) => {
-  // Validate user input
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  // Check for duplicate email or NIC (if needed)
-  let existingUser = await User.findOne({ email: req.body.email });
-  if (existingUser)
-    return res.status(400).send("User with this email already exists.");
-
-  existingUser = await User.findOne({ nic: req.body.nic });
-  if (existingUser)
-    return res.status(400).send("User with this NIC already exists.");
-
-  // Create and save new user
   const user = new User(req.body);
+
   try {
     await user.save();
-    res.send(user);
+    res.status(201).send(user);
   } catch (err) {
-    res.status(500).send("Error creating user.");
+    res.status(500).send("Error creating the user: " + err.message);
   }
 });
 
-// Get all users
+// GET all users
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
-    res.send(users);
+    res.status(200).send(users);
   } catch (err) {
-    res.status(500).send("Error fetching users.");
+    res.status(500).send("Error fetching users: " + err.message);
   }
 });
 
-// Get a user by ID
+// GET a single user by ID
 router.get("/:id", async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send("Invalid user ID.");
+
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).send("User not found.");
-    res.send(user);
+    res.status(200).send(user);
   } catch (err) {
-    res.status(500).send("Error fetching user.");
+    res.status(500).send("Error fetching the user: " + err.message);
   }
 });
 
-// Update a user by ID
+// UPDATE a user by ID
 router.put("/:id", async (req, res) => {
-  // Validate user input
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send("Invalid user ID.");
+
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -58,21 +55,25 @@ router.put("/:id", async (req, res) => {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
+
     if (!user) return res.status(404).send("User not found.");
-    res.send(user);
+    res.status(200).send(user);
   } catch (err) {
-    res.status(500).send("Error updating user.");
+    res.status(500).send("Error updating the user: " + err.message);
   }
 });
 
-// Delete a user by ID
+// DELETE a user by ID
 router.delete("/:id", async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    return res.status(400).send("Invalid user ID.");
+
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).send("User not found.");
-    res.send("User deleted successfully.");
+    res.status(200).send(user);
   } catch (err) {
-    res.status(500).send("Error deleting user.");
+    res.status(500).send("Error deleting the user: " + err.message);
   }
 });
 

@@ -1,12 +1,27 @@
 import React from "react";
 import ReusableForm from "../ReusableForm";
 import { Box, Typography } from "@mui/material";
+import axios from "axios";
 
 const AddNewCv = () => {
   const [applyas, setApplyas] = React.useState(null);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const formData = {
+      ...data,
+      trueAndCorrect: data.trueAndCorrect[0],
+    };
+
+    console.log(formData);
+
+    await axios
+      .post("http://localhost:3000/api/user", formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const fields1 = [
@@ -29,7 +44,7 @@ const AddNewCv = () => {
       rules: { required: "Full Name is required" },
     },
     {
-      name: "nameWithIntials",
+      name: "nameWithInitials",
       label: "NAME WITH INITIALS",
       type: "text",
       rules: { required: "Name with initials is required" },
