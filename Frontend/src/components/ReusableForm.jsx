@@ -4,8 +4,8 @@ import InputField from "./InputField";
 import { Button, Box, Grid, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 
-const ReusableForm = ({ fields, onSubmit }) => {
-  const { handleSubmit, control } = useForm();
+const ReusableForm = ({ fields, onSubmit, defaultValues = {} }) => {
+  const { handleSubmit, control } = useForm({ defaultValues });
 
   return (
     <Box sx={{ padding: 2, maxWidth: "800px", margin: "0 auto" }}>
@@ -42,7 +42,8 @@ const ReusableForm = ({ fields, onSubmit }) => {
                 >
                   <Typography
                     sx={{
-                      textAlign: field.type === "middelContentRight" ? "right" : "left",
+                      textAlign:
+                        field.type === "middelContentRight" ? "right" : "left",
                       color: "#2E5077",
                       fontSize: 16,
                       fontWeight: "bold",
