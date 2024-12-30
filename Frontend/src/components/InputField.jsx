@@ -83,11 +83,17 @@ const InputField = ({
             key={option.value}
             control={
               <Checkbox
-                checked={field.value?.includes(option.value) || false}
+                checked={
+                  Array.isArray(field.value) &&
+                  field.value.includes(option.value)
+                }
                 onChange={(e) => {
                   const value = e.target.checked
-                    ? [...(field.value || []), option.value]
-                    : field.value?.filter((v) => v !== option.value);
+                    ? [
+                        ...(Array.isArray(field.value) ? field.value : []),
+                        option.value,
+                      ]
+                    : field.value?.filter((v) => v !== option.value) || [];
                   field.onChange(value); // Update react-hook-form state
                   if (onChange) onChange(value); // Call custom onChange handler
                 }}
