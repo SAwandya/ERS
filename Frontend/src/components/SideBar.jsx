@@ -43,6 +43,16 @@ const Sidebar = () => {
       ],
     },
     {
+      text: "Interviews",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "All Interviews", path: "/allinterviews" },
+        { text: "New Interviews", path: "/newinterviews" },
+        { text: "Schedule Interviews", path: "/scheduleinterviews" },
+      ],
+    },
+    {
       text: "Integrations",
       icon: <IntegrationInstructionsIcon />,
       path: "/integrations",

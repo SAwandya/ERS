@@ -5,6 +5,9 @@ import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
 import Register from "./pages/Register";
+import AllInterviews from "./components/content/AllInterviews";
+import NewInterviews from "./components/content/NewInterviews";
+
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,18 @@ const router = createBrowserRouter([
         path: "/approvedcv",
         element: (
             <ApprovedCv/>
+        ),
+      },
+      {
+        path: "/allinterviews",
+        element: (
+            <AllInterviews/>
+        ),
+      },
+      {
+        path: "/newinterviews",
+        element: (
+            <NewInterviews/>
         ),
       },
     
