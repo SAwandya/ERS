@@ -10,8 +10,8 @@ const Topbar = () => {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <SearchIcon sx={{ mr: 1 }} />
-            <InputBase placeholder="Search..." />
+            {/* <SearchIcon sx={{ mr: 1 }} />
+            <InputBase placeholder="Search..." /> */}
           </Box>
         </Box>
         <IconButton>

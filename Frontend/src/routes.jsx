@@ -10,6 +10,9 @@ import AddNewInstitute from "./components/content/AddNewInstitute";
 import InternStatus from "./components/content/InternStatus";
 import ViewAllSchemes from "./components/content/ViewAllSchemes";
 import AddNewSchemes from "./components/content/AddNewSchemes";
+import AssignToScheme from "./components/content/AssignToScheme";
+import LifeCycle from "./components/content/LifeCycle";
+import Requests from "./components/content/Requests";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,18 @@ const router = createBrowserRouter([
       {
         path: "/addnewschemes",
         element: <AddNewSchemes />,
+      },
+      {
+        path: "/assigntoscheme",
+        element: <AssignToScheme />,
+      },
+      {
+        path: "/lifecycle",
+        element: <LifeCycle />,
+      },
+      {
+        path: "/requests",
+        element: <Requests />,
       },
     ],
   },

@@ -50,6 +50,23 @@ const Sidebar = () => {
 
     { text: "Intern status", icon: <DashboardIcon />, path: "/" },
     {
+      text: "Interviews",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "Add New CV", path: "/addnewcv" },
+        { text: "View All CV", path: "/viewallcv" },
+        { text: "Approved CV", path: "/approvedcv" },
+      ],
+    },
+    {
+      text: "Assign to Scheme",
+      icon: <DashboardIcon />,
+      path: "/assigntoscheme",
+    },
+    { text: "Life cycle", icon: <DashboardIcon />, path: "/lifecycle" },
+
+    {
       text: "Schemes",
       icon: <PeopleIcon />,
       isDropdown: true,
@@ -58,6 +75,8 @@ const Sidebar = () => {
         { text: "Add New Schemes", path: "/addnewschemes" },
       ],
     },
+    { text: "Requests", icon: <DashboardIcon />, path: "/requests" },
+
     {
       text: "Manage Institutes",
       icon: <PeopleIcon />,
@@ -67,14 +86,6 @@ const Sidebar = () => {
         { text: "Add new institutes", path: "/addnewinstitute" },
       ],
     },
-    {
-      text: "Integrations",
-      icon: <IntegrationInstructionsIcon />,
-      path: "/integrations",
-    },
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
-    { text: "Account", icon: <AccountCircleIcon />, path: "/account" },
-    { text: "Error", icon: <ErrorIcon />, path: "/error" },
   ];
 
   return (
@@ -90,7 +101,11 @@ const Sidebar = () => {
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6">DeviasKit</Typography>
+        <img
+          src="../src/assets/sltlogo.png"
+          alt="Logo"
+          style={{ width: "90%", height: "auto" }}
+        />
       </Box>
       <List>
         {menuItems.map((item) => (
