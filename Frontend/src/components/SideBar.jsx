@@ -48,8 +48,8 @@ const Sidebar = () => {
       isDropdown: true,
       subItems: [
         { text: "All Interviews", path: "/allinterviews" },
-        { text: "New Interviews", path: "/newinterviews" },
-        { text: "Schedule Interviews", path: "/scheduleinterviews" },
+        { text: "New Interview", path: "/newinterviews" },
+        { text: "Schedule Now", path: "/scheduleinterviews" },
       ],
     },
     {
