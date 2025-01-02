@@ -16,9 +16,6 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import PersonIcon from "@mui/icons-material/Person";
 
 const AssignInterns = () => {
   const [interns] = useState([
@@ -35,24 +32,6 @@ const AssignInterns = () => {
 
   return (
     <Box sx={{ bgcolor: "#f0f9ff", minHeight: "100vh" }}>
-      <AppBar position="static" sx={{ bgcolor: "white", boxShadow: 1 }}>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <IconButton size="large" edge="start" sx={{ color: "#5B7CB1" }}>
-            <HomeIcon />
-          </IconButton>
-
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Typography sx={{ color: "#666" }}>Welcome Admin</Typography>
-            <IconButton>
-              <FullscreenIcon />
-            </IconButton>
-            <IconButton>
-              <PersonIcon />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
       <Box sx={{ p: 4, maxWidth: "1400px", margin: "0 auto" }}>
         <Typography variant="h5" sx={{ mb: 3, color: "#2c3e50" }}>
           Assign Interns for Induction
