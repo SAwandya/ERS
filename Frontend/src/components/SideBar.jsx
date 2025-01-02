@@ -1,4 +1,3 @@
-// components/Sidebar.jsx
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -24,10 +23,16 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const drawerWidth = 240;
-  const [openManageCv, setOpenManageCv] = useState(false);
 
-  const handleManageCvClick = () => {
-    setOpenManageCv(!openManageCv);
+  // State to track which dropdown is open
+  const [openDropdowns, setOpenDropdowns] = useState({});
+
+  // Handle toggle for each dropdown
+  const handleDropdownToggle = (menuText) => {
+    setOpenDropdowns((prevState) => ({
+      ...prevState,
+      [menuText]: !prevState[menuText], // Toggle the state for the clicked menu
+    }));
   };
 
   const menuItems = [
@@ -40,6 +45,15 @@ const Sidebar = () => {
         { text: "Add New CV", path: "/addnewcv" },
         { text: "View All CV", path: "/viewallcv" },
         { text: "Approved CV", path: "/approvedcv" },
+      ],
+    },
+    {
+      text: "Manage Institutes",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "All registration requests", path: "/instituterequest" },
+        { text: "Add new institutes", path: "/addnewinstitute" },
       ],
     },
     {
@@ -74,7 +88,7 @@ const Sidebar = () => {
               button
               onClick={
                 item.isDropdown
-                  ? handleManageCvClick
+                  ? () => handleDropdownToggle(item.text)
                   : () => navigate(item.path)
               }
               sx={{
@@ -90,11 +104,15 @@ const Sidebar = () => {
               <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
               {item.isDropdown &&
-                (openManageCv ? <ExpandLess /> : <ExpandMore />)}
+                (openDropdowns[item.text] ? <ExpandLess /> : <ExpandMore />)}
             </ListItem>
 
             {item.isDropdown && (
-              <Collapse in={openManageCv} timeout="auto" unmountOnExit>
+              <Collapse
+                in={openDropdowns[item.text]}
+                timeout="auto"
+                unmountOnExit
+              >
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem) => (
                     <ListItem

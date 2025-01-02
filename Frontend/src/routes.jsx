@@ -5,6 +5,8 @@ import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
 import Register from "./pages/Register";
+import AddNewInstiyute from "./components/content/AddNewInstiyute";
+import InstitutesRegistrationRequest from "./components/content/InstitutesRegistrationRequest";
 
 const router = createBrowserRouter([
   {
@@ -13,29 +15,28 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-            <Home />
-        ),
+        element: <Home />,
       },
       {
         path: "/addnewcv",
-        element: (
-            <AddNewCv />
-        ),
+        element: <AddNewCv />,
       },
       {
         path: "/viewallcv",
-        element: (
-            <ViewAllCv />
-        ),
+        element: <ViewAllCv />,
       },
       {
         path: "/approvedcv",
-        element: (
-            <ApprovedCv/>
-        ),
+        element: <ApprovedCv />,
       },
-    
+      {
+        path: "/addnewinstitute",
+        element: <AddNewInstiyute />,
+      },
+      {
+        path: "/instituterequest",
+        element: <InstitutesRegistrationRequest />,
+      },
     ],
   },
 
@@ -44,10 +45,10 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-//   {
-//     path: "/signin",
-//     element: <SignInForm />,
-//   },
+  //   {
+  //     path: "/signin",
+  //     element: <SignInForm />,
+  //   },
 ]);
 
 export default router;
