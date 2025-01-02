@@ -56,6 +56,13 @@ const AddNewInstitute = () => {
       rules: { required: "Instiute address is required" },
       gridSize: { md: 12 },
     },
+    {
+      name: "contactPersonEmail",
+      label: "CONTACT PERSON EMAIL",
+      type: "text",
+      rules: { required: "Contact person email is required" },
+      gridSize: { md: 12 },
+    },
   ];
 
   return (

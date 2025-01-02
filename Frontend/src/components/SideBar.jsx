@@ -47,6 +47,17 @@ const Sidebar = () => {
         { text: "Approved CV", path: "/approvedcv" },
       ],
     },
+
+    { text: "Intern status", icon: <DashboardIcon />, path: "/" },
+    {
+      text: "Schemes",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "View All Schemes", path: "/viewallschemes" },
+        { text: "Add New Schemes", path: "/addnewschemes" },
+      ],
+    },
     {
       text: "Manage Institutes",
       icon: <PeopleIcon />,

@@ -7,6 +7,9 @@ import Home from "./components/content/Home";
 import Register from "./pages/Register";
 import InstitutesRegistrationRequest from "./components/content/InstitutesRegistrationRequest";
 import AddNewInstitute from "./components/content/AddNewInstitute";
+import InternStatus from "./components/content/InternStatus";
+import ViewAllSchemes from "./components/content/ViewAllSchemes";
+import AddNewSchemes from "./components/content/AddNewSchemes";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,18 @@ const router = createBrowserRouter([
       {
         path: "/instituterequest",
         element: <InstitutesRegistrationRequest />,
+      },
+      {
+        path: "/internstatus",
+        element: <InternStatus />,
+      },
+      {
+        path: "/viewallschemes",
+        element: <ViewAllSchemes />,
+      },
+      {
+        path: "/addnewschemes",
+        element: <AddNewSchemes />,
       },
     ],
   },
