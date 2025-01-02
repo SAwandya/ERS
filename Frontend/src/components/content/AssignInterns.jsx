@@ -28,10 +28,19 @@ const AssignInterns = () => {
       mobile: "0763017627",
       cvFrom: "admin",
     },
+    {
+      id: "Nv7nBC32563",
+      fullName: "Don Manuwelge Livindu Lasanjith Gunarathne",
+      nic: "200256345922",
+      address:
+        "325A, Attidiya Main Road, Attidiya, Dehiwala, Colombo, Sri Lanka",
+      mobile: "0763017627",
+      cvFrom: "admin",
+    },
   ]);
 
   return (
-    <Box sx={{ bgcolor: "#f0f9ff", minHeight: "100vh" }}>
+    <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh" }}>
       <Box sx={{ p: 4, maxWidth: "1400px", margin: "0 auto" }}>
         <Typography variant="h5" sx={{ mb: 3, color: "#2c3e50" }}>
           Assign Interns for Induction
