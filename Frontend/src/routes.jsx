@@ -5,6 +5,7 @@ import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
 import ViewAllInductions from "./components/content/ViewAllInductions";
+import AssignInterns from "./components/content/AssignInterns";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/viewallinductions",
         element: <ViewAllInductions />,
+      },
+      {
+        path: "/assigninterns",
+        element: <AssignInterns />,
       },
     ],
   },

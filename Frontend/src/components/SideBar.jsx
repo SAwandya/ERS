@@ -48,7 +48,7 @@ const Sidebar = () => {
       isDropdown: true,
       subItems: [
         { text: "View all Inductions", path: "/viewallinductions" },
-        { text: "Assign Interns", path: "/integrations" },
+        { text: "Assign Interns", path: "/assigninterns" },
       ],
     },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
