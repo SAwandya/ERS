@@ -7,4 +7,4 @@ const AddNewScheme = () => {
 }
 
 
-export default AddNewScheme
+export default AddNewScheme;
