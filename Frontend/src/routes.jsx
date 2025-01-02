@@ -7,9 +7,8 @@ import Home from "./components/content/Home";
 import Register from "./pages/Register";
 import ViewAllSchemes from "./components/content/ViewAllSchemes";
 import AddNewScheme from "./components/content/AddNewScheme";
-
-
-
+import ViewAllInductions from "./components/content/ViewAllInductions";
+import AssignInterns from "./components/content/AssignInterns";
 
 const router = createBrowserRouter([
   {
@@ -18,46 +17,38 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-            <Home />
-        ),
+        element: <Home />,
       },
       {
         path: "/addnewcv",
-        element: (
-            <AddNewCv />
-        ),
+        element: <AddNewCv />,
       },
       {
         path: "/viewallcv",
-        element: (
-            <ViewAllCv />
-        ),
+        element: <ViewAllCv />,
       },
       {
         path: "/approvedcv",
-        element: (
-            <ApprovedCv/>
-        ),
+        element: <ApprovedCv />,
       },
       {
         path: "/viewallSchemes",
-        element: (
-          <ViewAllSchemes/>
-        ),
+        element: <ViewAllSchemes />,
       },
 
       {
         path: "/addnewscheme",
-        element: (
-          <AddNewScheme/>
-        ),
+        element: <AddNewScheme />,
       },
-      
 
-      
-      
-    
+      {
+        path: "/viewallinductions",
+        element: <ViewAllInductions />,
+      },
+      {
+        path: "/assigninterns",
+        element: <AssignInterns />,
+      },
     ],
   },
 
@@ -66,10 +57,10 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-//   {
-//     path: "/signin",
-//     element: <SignInForm />,
-//   },
+  //   {
+  //     path: "/signin",
+  //     element: <SignInForm />,
+  //   },
 ]);
 
 export default router;

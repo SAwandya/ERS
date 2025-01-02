@@ -17,7 +17,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -44,9 +44,13 @@ const Sidebar = () => {
       ],
     },
     {
-      text: "Integrations",
+      text: "Induction",
       icon: <IntegrationInstructionsIcon />,
-      path: "/integrations",
+      isDropdown: true,
+      subItems: [
+        { text: "View all Inductions", path: "/viewallinductions" },
+        { text: "Assign Interns", path: "/assigninterns" },
+      ],
     },
 
     {
@@ -54,7 +58,7 @@ const Sidebar = () => {
       icon: <WorkIcon />,
       isDropdown: true,
       subItems: [
-        { text: "View all Schemes",path: "/viewallschemes" },
+        { text: "View all Schemes", path: "/viewallschemes" },
         { text: "Add New Scheme", path: "/addnewscheme" },
       ],
     },
