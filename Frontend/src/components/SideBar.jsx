@@ -43,12 +43,12 @@ const Sidebar = () => {
       ],
     },
     {
-      text: "Integrations",
+      text: "Induction",
       icon: <IntegrationInstructionsIcon />,
       isDropdown: true,
       subItems: [
-        { text: "Add New CV", path: "/integrations" },
-        { text: "View All CV", path: "/integrations" },
+        { text: "View all Inductions", path: "/viewallinductions" },
+        { text: "Assign Interns", path: "/integrations" },
       ],
     },
     { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
