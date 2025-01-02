@@ -4,8 +4,12 @@ import AddNewCv from "./components/content/AddNewCv";
 import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
+import Register from "./pages/Register";
 import ViewAllSchemes from "./components/content/ViewAllSchemes";
 import AddNewScheme from "./components/content/AddNewScheme";
+
+
+
 
 const router = createBrowserRouter([
   {
@@ -21,19 +25,19 @@ const router = createBrowserRouter([
       {
         path: "/addnewcv",
         element: (
-            <ViewAllCv />
+            <AddNewCv />
         ),
       },
       {
         path: "/viewallcv",
         element: (
-            <ApprovedCv />
+            <ViewAllCv />
         ),
       },
       {
         path: "/approvedcv",
         element: (
-            <AddNewCv/>
+            <ApprovedCv/>
         ),
       },
       {
@@ -57,10 +61,10 @@ const router = createBrowserRouter([
     ],
   },
 
-//   {
-//     path: "/signup",
-//     element: <RegisterForm />,
-//   },
+  {
+    path: "/signup",
+    element: <Register />,
+  },
 
 //   {
 //     path: "/signin",
