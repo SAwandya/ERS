@@ -5,8 +5,8 @@ import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
 import Register from "./pages/Register";
-import AddNewInstiyute from "./components/content/AddNewInstiyute";
 import InstitutesRegistrationRequest from "./components/content/InstitutesRegistrationRequest";
+import AddNewInstitute from "./components/content/AddNewInstitute";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/addnewinstitute",
-        element: <AddNewInstiyute />,
+        element: <AddNewInstitute />,
       },
       {
         path: "/instituterequest",

@@ -416,8 +416,6 @@ const ApprovedCv = () => {
     return acc;
   }, {});
 
-  console.log("default values", defaultValues);
-
   // Loading state
   if (loading) return <div>Loading...</div>;
 
