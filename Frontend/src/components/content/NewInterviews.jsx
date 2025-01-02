@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Typography, TextField, Button, Box, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Button,
+  Box,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import API from "../../api";
 
 const sriLankanDistricts = [
@@ -66,17 +75,38 @@ const InterviewForm = ({ selectedInterview, onSubmit }) => {
     });
   };
 
+  const handleCancel = () => {
+    setFormData({
+      label: "",
+      date: "",
+      location: "",
+      edit: "",
+      action: "",
+      delete: "",
+    });
+  };
+
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box
+      sx={{
+        padding: 7,
+        maxWidth: "1000px",
+        margin: "0 auto",
+        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+      }}
+      component="form"
+      onSubmit={handleSubmit}
+    >
       <Typography
         sx={{
           textAlign: "left",
-          color: "#4C585B",
+          mb: 4,
+          color: "#2e2e2e",
           fontSize: 24,
-          marginBottom: 4,
+          fontWeight: "bold",
         }}
       >
-        Add New Interview
+        {formData._id ? "Edit Interview" : "Add New Interview"}
       </Typography>
       <TextField
         label="Label"
@@ -101,7 +131,6 @@ const InterviewForm = ({ selectedInterview, onSubmit }) => {
           name="location"
           value={formData.location}
           onChange={handleChange}
-          fullWidth
         >
           {sriLankanDistricts.map((district) => (
             <MenuItem key={district} value={district}>
@@ -134,9 +163,19 @@ const InterviewForm = ({ selectedInterview, onSubmit }) => {
         fullWidth
         margin="normal"
       />
-      <Button type="submit" variant="contained" color="primary">
-        {formData._id ? "Update" : "Add"} Interview
-      </Button>
+      <Box display="flex" justifyContent="space-between" mt={4}>
+        <Button
+          type="button"
+          variant="contained"
+          color="error"
+          onClick={handleCancel}
+        >
+          Cancel
+        </Button>
+        <Button type="submit" variant="contained" color="primary">
+          {formData._id ? "Update" : "Add"} Interview
+        </Button>
+      </Box>
     </Box>
   );
 };
