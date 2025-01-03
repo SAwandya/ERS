@@ -264,10 +264,14 @@ const ApprovedCv = () => {
       trueAndCorrect: data.trueAndCorrect[0],
     };
 
-    console.log(formData);
+    const filteredData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== "")
+    );
+
+    console.log(filteredData);
 
     await axios
-      .put(`http://localhost:3000/api/user/${selectedUserId}`, formData)
+      .put(`http://localhost:3000/api/user/${selectedUserId}`, filteredData)
       .then((res) => {
         console.log(res);
       })
