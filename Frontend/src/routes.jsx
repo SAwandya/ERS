@@ -5,10 +5,16 @@ import ApprovedCv from "./components/content/ApprovedCv";
 import ViewAllCv from "./components/content/ViewAllCv";
 import Home from "./components/content/Home";
 import Register from "./pages/Register";
+import InstitutesRegistrationRequest from "./components/content/InstitutesRegistrationRequest";
+import AddNewInstitute from "./components/content/AddNewInstitute";
+import InternStatus from "./components/content/InternStatus";
 import ViewAllSchemes from "./components/content/ViewAllSchemes";
-import AddNewScheme from "./components/content/AddNewScheme";
-
-
+import AddNewSchemes from "./components/content/AddNewSchemes";
+import AssignToScheme from "./components/content/AssignToScheme";
+import LifeCycle from "./components/content/LifeCycle";
+import Requests from "./components/content/Requests";
+import AllInterviews from "./components/content/AllInterviews";
+import AddNewInterview from "./components/content/AddNewInterview";
 
 
 const router = createBrowserRouter([
@@ -18,46 +24,60 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-            <Home />
-        ),
+        element: <Home />,
       },
       {
         path: "/addnewcv",
-        element: (
-            <AddNewCv />
-        ),
+        element: <AddNewCv />,
       },
       {
         path: "/viewallcv",
-        element: (
-            <ViewAllCv />
-        ),
+        element: <ViewAllCv />,
       },
       {
         path: "/approvedcv",
-        element: (
-            <ApprovedCv/>
-        ),
+        element: <ApprovedCv />,
       },
       {
-        path: "/viewallSchemes",
-        element: (
-          <ViewAllSchemes/>
-        ),
+        path: "/addnewinstitute",
+        element: <AddNewInstitute />,
       },
-
       {
-        path: "/addnewscheme",
-        element: (
-          <AddNewScheme/>
-        ),
+        path: "/instituterequest",
+        element: <InstitutesRegistrationRequest />,
       },
-      
-
-      
-      
-    
+      {
+        path: "/internstatus",
+        element: <InternStatus />,
+      },
+      {
+        path: "/viewallschemes",
+        element: <ViewAllSchemes />,
+      },
+      {
+        path: "/addnewschemes",
+        element: <AddNewSchemes />,
+      },
+      {
+        path: "/assigntoscheme",
+        element: <AssignToScheme />,
+      },
+      {
+        path: "/lifecycle",
+        element: <LifeCycle />,
+      },
+      {
+        path: "/requests",
+        element: <Requests />,
+      },
+      {
+        path: "/allinterviews",
+        element: <AllInterviews />,
+      },
+      {
+        path: "/addnewinterview",
+        element: <AddNewInterview />,
+      },
     ],
   },
 
@@ -66,10 +86,10 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-//   {
-//     path: "/signin",
-//     element: <SignInForm />,
-//   },
+  //   {
+  //     path: "/signin",
+  //     element: <SignInForm />,
+  //   },
 ]);
 
 export default router;

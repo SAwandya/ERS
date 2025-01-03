@@ -255,11 +255,35 @@ const ApprovedCv = () => {
 
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const onSubmit = async (data) => {};
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const handleEdit = (user) => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    const formData = {
+      ...data,
+      trueAndCorrect: data.trueAndCorrect[0],
+    };
+
+    const filteredData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => value !== "")
+    );
+
+    console.log(filteredData);
+
+    await axios
+      .put(`http://localhost:3000/api/user/${selectedUserId}`, filteredData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleEdit = (user, id) => {
     console.log(user);
     setSelectedUser(user);
+    setSelectedUserId(id);
   };
 
   const handleApprove = async (id, label) => {
@@ -360,7 +384,7 @@ const ApprovedCv = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => handleEdit(row.user)}
+          onClick={() => handleEdit(row.user, row.id)}
         >
           Edit
         </Button>
@@ -415,8 +439,6 @@ const ApprovedCv = () => {
     acc[fieldName] = selectedUser?.[fieldName] || ""; // Use bracket notation to access the property
     return acc;
   }, {});
-
-  console.log("default values", defaultValues);
 
   // Loading state
   if (loading) return <div>Loading...</div>;

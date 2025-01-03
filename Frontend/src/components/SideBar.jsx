@@ -1,4 +1,3 @@
-// components/Sidebar.jsx
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -25,10 +24,16 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const drawerWidth = 240;
-  const [openManageCv, setOpenManageCv] = useState(false);
 
-  const handleManageCvClick = () => {
-    setOpenManageCv(!openManageCv);
+  // State to track which dropdown is open
+  const [openDropdowns, setOpenDropdowns] = useState({});
+
+  // Handle toggle for each dropdown
+  const handleDropdownToggle = (menuText) => {
+    setOpenDropdowns((prevState) => ({
+      ...prevState,
+      [menuText]: !prevState[menuText], // Toggle the state for the clicked menu
+    }));
   };
 
   const menuItems = [
@@ -43,25 +48,45 @@ const Sidebar = () => {
         { text: "Approved CV", path: "/approvedcv" },
       ],
     },
+
+    { text: "Intern status", icon: <DashboardIcon />, path: "/" },
     {
-      text: "Integrations",
-      icon: <IntegrationInstructionsIcon />,
-      path: "/integrations",
+      text: "Interviews",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "All Interviews", path: "/allinterviews" },
+        { text: "Add New Interview", path: "/addnewinterview" },
+      ],
     },
+    {
+      text: "Assign to Scheme",
+      icon: <DashboardIcon />,
+      path: "/assigntoscheme",
+    },
+    { text: "Life cycle", icon: <DashboardIcon />, path: "/lifecycle" },
 
     {
       text: "Schemes",
-      icon: <WorkIcon />,
+      icon: <PeopleIcon />,
       isDropdown: true,
       subItems: [
-        { text: "View all Schemes",path: "/viewallschemes" },
-        { text: "Add New Scheme", path: "/addnewscheme" },
+        { text: "View All Schemes", path: "/viewallschemes" },
+        { text: "Add New Schemes", path: "/addnewschemes" },
+      ],
+    },
+    { text: "Requests", icon: <DashboardIcon />, path: "/requests" },
+
+    {
+      text: "Manage Institutes",
+      icon: <PeopleIcon />,
+      isDropdown: true,
+      subItems: [
+        { text: "All registration requests", path: "/instituterequest" },
+        { text: "Add new institutes", path: "/addnewinstitute" },
       ],
     },
 
-    { text: "Settings", icon: <SettingsIcon />, path: "/settings" },
-    { text: "Account", icon: <AccountCircleIcon />, path: "/account" },
-    { text: "Error", icon: <ErrorIcon />, path: "/error" },
   ];
 
   return (
@@ -77,16 +102,38 @@ const Sidebar = () => {
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6">DeviasKit</Typography>
+        <img
+          src="../src/assets/sltlogo.png"
+          alt="Logo"
+          style={{
+            width: "90%",
+            height: "auto",
+          }}
+        />
       </Box>
-      <List>
+      <List
+        sx={{
+          scrollbarWidth: "none", // Hides scrollbar in Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // Hides scrollbar in Chrome, Edge, Safari
+          },
+        }}
+      >
         {menuItems.map((item) => (
-          <Box key={item.text}>
+          <Box
+            sx={{
+              scrollbarWidth: "none", // Hides scrollbar in Firefox
+              "&::-webkit-scrollbar": {
+                display: "none", // Hides scrollbar in Chrome, Edge, Safari
+              },
+            }}
+            key={item.text}
+          >
             <ListItem
               button
               onClick={
                 item.isDropdown
-                  ? handleManageCvClick
+                  ? () => handleDropdownToggle(item.text)
                   : () => navigate(item.path)
               }
               sx={{
@@ -102,11 +149,15 @@ const Sidebar = () => {
               <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
               {item.isDropdown &&
-                (openManageCv ? <ExpandLess /> : <ExpandMore />)}
+                (openDropdowns[item.text] ? <ExpandLess /> : <ExpandMore />)}
             </ListItem>
 
             {item.isDropdown && (
-              <Collapse in={openManageCv} timeout="auto" unmountOnExit>
+              <Collapse
+                in={openDropdowns[item.text]}
+                timeout="auto"
+                unmountOnExit
+              >
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem) => (
                     <ListItem
