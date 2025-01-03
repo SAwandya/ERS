@@ -13,6 +13,7 @@ import AddNewSchemes from "./components/content/AddNewSchemes";
 import AssignToScheme from "./components/content/AssignToScheme";
 import LifeCycle from "./components/content/LifeCycle";
 import Requests from "./components/content/Requests";
+import AllInterviews from "./components/content/AllInterviews";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/requests",
         element: <Requests />,
+      },
+      {
+        path: "/allinterviews",
+        element: <AllInterviews />,
       },
     ],
   },

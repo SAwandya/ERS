@@ -54,7 +54,7 @@ const Sidebar = () => {
       icon: <PeopleIcon />,
       isDropdown: true,
       subItems: [
-        { text: "Add New CV", path: "/addnewcv" },
+        { text: "All Interviews", path: "/allinterviews" },
         { text: "View All CV", path: "/viewallcv" },
         { text: "Approved CV", path: "/approvedcv" },
       ],
