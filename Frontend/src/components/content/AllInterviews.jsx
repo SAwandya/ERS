@@ -34,9 +34,9 @@ const AllInterviews = () => {
 
 
   const rows = interviews.map((scheme) => ({
-    interviewLabel: scheme.schemeName,
-    dateTime : scheme.totalAllocation,
-    location : scheme.recurring,
+    interviewLabel: scheme.interviewLabel,
+    dateTime: scheme.dateTime,
+    location: scheme.location,
   }));
 
   const columns = [

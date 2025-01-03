@@ -255,11 +255,31 @@ const ApprovedCv = () => {
 
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const onSubmit = async (data) => {};
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const handleEdit = (user) => {
+  const onSubmit = async (data) => {
+    console.log(data);
+    const formData = {
+      ...data,
+      trueAndCorrect: data.trueAndCorrect[0],
+    };
+
+    console.log(formData);
+
+    await axios
+      .put(`http://localhost:3000/api/user/${selectedUserId}`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleEdit = (user, id) => {
     console.log(user);
     setSelectedUser(user);
+    setSelectedUserId(id);
   };
 
   const handleApprove = async (id, label) => {
@@ -360,7 +380,7 @@ const ApprovedCv = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => handleEdit(row.user)}
+          onClick={() => handleEdit(row.user, row.id)}
         >
           Edit
         </Button>

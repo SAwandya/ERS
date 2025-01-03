@@ -55,8 +55,7 @@ const Sidebar = () => {
       isDropdown: true,
       subItems: [
         { text: "All Interviews", path: "/allinterviews" },
-        { text: "View All CV", path: "/viewallcv" },
-        { text: "Approved CV", path: "/approvedcv" },
+        { text: "Add New Interview", path: "/addnewinterview" },
       ],
     },
     {
@@ -104,12 +103,30 @@ const Sidebar = () => {
         <img
           src="../src/assets/sltlogo.png"
           alt="Logo"
-          style={{ width: "90%", height: "auto" }}
+          style={{
+            width: "90%",
+            height: "auto",
+          }}
         />
       </Box>
-      <List>
+      <List
+        sx={{
+          scrollbarWidth: "none", // Hides scrollbar in Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // Hides scrollbar in Chrome, Edge, Safari
+          },
+        }}
+      >
         {menuItems.map((item) => (
-          <Box key={item.text}>
+          <Box
+            sx={{
+              scrollbarWidth: "none", // Hides scrollbar in Firefox
+              "&::-webkit-scrollbar": {
+                display: "none", // Hides scrollbar in Chrome, Edge, Safari
+              },
+            }}
+            key={item.text}
+          >
             <ListItem
               button
               onClick={
