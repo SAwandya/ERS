@@ -14,7 +14,7 @@ const interviewSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    schema: {
+    scheme: {
         type: String,
         required: true,
     },
@@ -42,10 +42,10 @@ function validateInterview(interview) {
         label: Joi.string().required(),
         date: Joi.date().required(),
         time: Joi.string().required(),
-        schema: Joi.string().required(),
+        scheme: Joi.string().required(),
         location: Joi.string().required(),
         notes: Joi.string(),
-        user: Joi.objectId(),
+        user: Joi.string(),
         status: Joi.boolean(),
     });
 

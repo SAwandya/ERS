@@ -482,7 +482,7 @@ const ApprovedCv = () => {
           Approve CVs
         </Button>
       </Box>
-      <ReusableTable rows={rows} columns={columns} title="Nutrition Table" />
+      <ReusableTable rows={rows} columns={columns} />
     </Box>
   );
 };

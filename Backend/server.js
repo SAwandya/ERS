@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const session = require("express-session");
 const user = require("./routes/user");
+const interview = require("./routes/interview");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -28,6 +29,7 @@ app.use(
 );
 
 app.use("/api/user", user);
+app.use("/api/interview", interview);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

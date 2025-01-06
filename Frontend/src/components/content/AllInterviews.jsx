@@ -1,48 +1,72 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
+import axios from "axios";
+import ReusablePopup from "../ReusablePopup";
 
 const AllInterviews = () => {
+  const [interviews, setInterviews] = useState([]); // State to store fetched data
+  const [loading, setLoading] = useState(true); // State to track loading
+  const [error, setError] = useState(""); // State to handle errors
 
-    const interviews = [
-      {
-        interviewLabel: "Software Developer Intern Interview",
-        dateTime: "2025-01-10 10:30 AM",
-        location: "Room 302, Tech Building",
-      },
-      {
-        interviewLabel: "Data Analyst Position Interview",
-        dateTime: "2025-01-11 02:00 PM",
-        location: "Room 208, Innovation Center",
-      },
-      {
-        interviewLabel: "Project Manager Role Interview",
-        dateTime: "2025-01-12 09:00 AM",
-        location: "Room 101, Corporate Wing",
-      },
-      {
-        interviewLabel: "UI/UX Designer Interview",
-        dateTime: "2025-01-13 01:00 PM",
-        location: "Room 405, Design Studio",
-      },
-      {
-        interviewLabel: "Marketing Specialist Interview",
-        dateTime: "2025-01-14 11:15 AM",
-        location: "Room 303, Marketing Department",
-      },
-    ];
+  const [open, setOpen] = useState(false);
 
+  const onSubmit = async (data) => {
+    console.log(data);
+  }
+
+  const fields = [
+    {
+      name: "interview",
+      label: "SELECT INTERVIEW",
+      type: "select",
+      options: [
+        { value: "interview_01", label: "Interview 01" },
+        { value: "interview_02", label: "Interview 02" },
+      ],
+      rules: { required: "Scheme is required" },
+    },
+    {
+      name: "scheme",
+      label: "SELECT SCHEME",
+      type: "select",
+      options: [
+        { value: "scheme_01", label: "Scheme 01" },
+        { value: "scheme_02", label: "Scheme 02" },
+      ],
+      rules: { required: "Scheme is required" },
+    },
+  ];
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // Make a GET request to your API
+        const response = await axios.get("http://localhost:3000/api/interview");
+        setInterviews(response.data); // Update state with fetched data
+        console.log(response.data);
+        setLoading(false); // Set loading to false
+      } catch (err) {
+        setError("Error fetching data"); // Handle errors
+        setLoading(false);
+      }
+    };
+
+    fetchUsers(); // Call the function
+  }, []); // Empty dependency array ensures this runs only once
 
   const rows = interviews.map((scheme) => ({
-    interviewLabel: scheme.interviewLabel,
-    dateTime: scheme.dateTime,
+    interviewLabel: scheme.label,
+    date: scheme.date ? new Date(scheme.date).toDateString() : "",
+    time: scheme.time,
     location: scheme.location,
   }));
 
   const columns = [
     { id: "interviewLabel", label: "INTERVIEW LABEL", numeric: false },
-    { id: "dateTime", label: "DATE TIME", numeric: true },
-    { id: "recurring", label: "Recurring", numeric: true },
+    { id: "date", label: "DATE", numeric: true },
+    { id: "time", label: "TIME", numeric: true },
+    { id: "location", label: "LOCATION", numeric: true },
 
     {
       id: "edit",
@@ -88,7 +112,6 @@ const AllInterviews = () => {
     },
   ];
 
-
   return (
     <Box
       sx={{
@@ -117,11 +140,16 @@ const AllInterviews = () => {
         <Button color="primary" variant="contained">
           Add new interview
         </Button>
-        <Button color="primary" variant="contained">
+        <Button
+          color="primary"
+          onClick={() => setOpen(true)}
+          variant="contained"
+        >
           Shedule interview
         </Button>
       </Box>
       <ReusableTable rows={rows} columns={columns} />
+      <ReusablePopup open={open} onClose={() => setOpen(false)} fields={fields} onSubmit={onSubmit} />
     </Box>
   );
 };
