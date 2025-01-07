@@ -1,42 +1,35 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
+import axios from "axios";
 
 const ViewAllSchemes = () => {
 
-    const schemes = [
-      {
-        schemeName: "Education Upliftment Scheme",
-        totalAllocation: "10,000,000",
-        recurring: true,
-      },
-      {
-        schemeName: "Health Care Improvement Program",
-        totalAllocation: "25,000,000",
-        recurring: false,
-      },
-      {
-        schemeName: "Rural Development Initiative",
-        totalAllocation: "15,000,000",
-        recurring: true,
-      },
-      {
-        schemeName: "Youth Skill Development",
-        totalAllocation: "12,000,000",
-        recurring: false,
-      },
-      {
-        schemeName: "Environmental Conservation Scheme",
-        totalAllocation: "20,000,000",
-        recurring: true,
-      },
-    ];
+  const [schemes, setScheme] = useState([]); // State to store fetched data
+  const [loading, setLoading] = useState(true); // State to track loading
+  const [error, setError] = useState(""); // State to handle errors
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // Make a GET request to your API
+        const response = await axios.get("http://localhost:3000/api/scheme");
+        setScheme(response.data); // Update state with fetched data
+        console.log(response.data);
+        setLoading(false); // Set loading to false
+      } catch (err) {
+        setError("Error fetching data"); // Handle errors
+        setLoading(false);
+      }
+    };
+
+    fetchUsers(); // Call the function
+  }, []); // Empty dependency array ensures this runs only once
 
   const rows = schemes.map((scheme) => ({
-    schemeName: scheme.schemeName,
-    totalAllocation: scheme.totalAllocation,
+    schemeName: scheme.name,
+    totalAllocation: scheme.allocation,
     recurring: scheme.recurring,
   }));
 

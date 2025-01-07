@@ -9,34 +9,9 @@ const AllInterviews = () => {
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
 
-  const [open, setOpen] = useState(false);
-
   const onSubmit = async (data) => {
     console.log(data);
-  }
-
-  const fields = [
-    {
-      name: "interview",
-      label: "SELECT INTERVIEW",
-      type: "select",
-      options: [
-        { value: "interview_01", label: "Interview 01" },
-        { value: "interview_02", label: "Interview 02" },
-      ],
-      rules: { required: "Scheme is required" },
-    },
-    {
-      name: "scheme",
-      label: "SELECT SCHEME",
-      type: "select",
-      options: [
-        { value: "scheme_01", label: "Scheme 01" },
-        { value: "scheme_02", label: "Scheme 02" },
-      ],
-      rules: { required: "Scheme is required" },
-    },
-  ];
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -140,16 +115,11 @@ const AllInterviews = () => {
         <Button color="primary" variant="contained">
           Add new interview
         </Button>
-        <Button
-          color="primary"
-          onClick={() => setOpen(true)}
-          variant="contained"
-        >
+        <Button color="primary" variant="contained">
           Shedule interview
         </Button>
       </Box>
       <ReusableTable rows={rows} columns={columns} />
-      <ReusablePopup open={open} onClose={() => setOpen(false)} fields={fields} onSubmit={onSubmit} />
     </Box>
   );
 };

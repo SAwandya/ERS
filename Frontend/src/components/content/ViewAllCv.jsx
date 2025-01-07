@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
+import ReusablePopup from "../ReusablePopup";
 
 const ViewAllCv = () => {
   const [age, setAge] = React.useState("");
@@ -14,7 +15,11 @@ const ViewAllCv = () => {
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
 
-  console.log("View all cv component");
+  const [open, setOpen] = useState(false);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -103,6 +108,29 @@ const ViewAllCv = () => {
     },
   ];
 
+  const fields = [
+    {
+      name: "interview",
+      label: "SELECT INTERVIEW",
+      type: "select",
+      options: [
+        { value: "interview_01", label: "Interview 01" },
+        { value: "interview_02", label: "Interview 02" },
+      ],
+      rules: { required: "Scheme is required" },
+    },
+    {
+      name: "scheme",
+      label: "SELECT SCHEME",
+      type: "select",
+      options: [
+        { value: "scheme_01", label: "Scheme 01" },
+        { value: "scheme_02", label: "Scheme 02" },
+      ],
+      rules: { required: "Scheme is required" },
+    },
+  ];
+
   const handleChange = (event) => {
     setAge(event.target.value);
   };
@@ -177,6 +205,7 @@ const ViewAllCv = () => {
               sx={{ height: "100%", backgroundColor: "#615EFC" }}
               fullWidth
               color="success"
+              onClick={() => setOpen(true)}
             >
               Shedule Interviews
             </Button>
@@ -305,6 +334,12 @@ const ViewAllCv = () => {
           </Grid2>
         </Grid2>
         <ReusableTable rows={rows} columns={columns} />
+        <ReusablePopup
+          open={open}
+          onClose={() => setOpen(false)}
+          fields={fields}
+          onSubmit={onSubmit}
+        />
       </Box>
     </>
   );
