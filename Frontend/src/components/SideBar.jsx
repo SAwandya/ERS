@@ -16,6 +16,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ErrorIcon from "@mui/icons-material/Error";
+import WorkIcon from '@mui/icons-material/Work';
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -85,6 +86,7 @@ const Sidebar = () => {
         { text: "Add new institutes", path: "/addnewinstitute" },
       ],
     },
+
   ];
 
   return (
