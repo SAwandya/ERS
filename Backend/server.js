@@ -6,6 +6,7 @@ require("dotenv").config();
 const session = require("express-session");
 const user = require("./routes/user");
 const interview = require("./routes/interview");
+const scheme = require("./routes/scheme");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -30,6 +31,7 @@ app.use(
 
 app.use("/api/user", user);
 app.use("/api/interview", interview);
+app.use("/api/scheme", scheme);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
