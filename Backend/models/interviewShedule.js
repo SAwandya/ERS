@@ -24,7 +24,7 @@ const InterviewShedule = mongoose.model(
 function validateInterviewShedule(interviewShedule) {
   const schema = Joi.object({
     interview: Joi.string().required(),
-    user: Joi.string().required(),
+    user: Joi.array().items(Joi.string()),
     status: Joi.boolean(),
   });
 

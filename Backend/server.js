@@ -7,6 +7,7 @@ const session = require("express-session");
 const user = require("./routes/user");
 const interview = require("./routes/interview");
 const scheme = require("./routes/scheme");
+const shedule = require("./routes/shedule");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -32,6 +33,7 @@ app.use(
 app.use("/api/user", user);
 app.use("/api/interview", interview);
 app.use("/api/scheme", scheme);
+app.use("/api/schedule", shedule);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

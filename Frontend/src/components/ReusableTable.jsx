@@ -22,6 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import EditIcon from "@mui/icons-material/Edit";
 import { visuallyHidden } from "@mui/utils";
+import useEmployeeQueryStore from "../store";
 
 // Utility for creating data rows (optional)
 function createData(id, name, calories, fat, carbs, protein) {
@@ -59,6 +60,8 @@ function ReusableTable({ rows, columns, title }) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const SetSelectedRow = useEmployeeQueryStore((state) => state.SetSelectedRow);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -69,6 +72,7 @@ function ReusableTable({ rows, columns, title }) {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
+      SetSelectedRow(newSelected);
       return;
     }
     setSelected([]);
@@ -91,6 +95,7 @@ function ReusableTable({ rows, columns, title }) {
       );
     }
     setSelected(newSelected);
+    SetSelectedRow(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {

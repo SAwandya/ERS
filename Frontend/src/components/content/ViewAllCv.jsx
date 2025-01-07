@@ -8,18 +8,47 @@ import Select from "@mui/material/Select";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import ReusablePopup from "../ReusablePopup";
+import useEmployeeQueryStore from "../../store";
 
 const ViewAllCv = () => {
   const [age, setAge] = React.useState("");
   const [users, setUsers] = useState([]); // State to store fetched data
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
+  const [interviews, setInterview] = useState([]); // State to store fetched data
 
   const [open, setOpen] = useState(false);
 
+  const selectedRow = useEmployeeQueryStore((state) => state.selectedRow);
+
   const onSubmit = async (data) => {
-    console.log(data);
+    const sheduledata = {
+      interview: data.interview,
+      userIds: selectedRow,
+    };
+
+    await axios
+      .post("http://localhost:3000/api/schedule", sheduledata)
+      .then((res) => {
+        setOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // Make a GET request to your API
+        const response = await axios.get("http://localhost:3000/api/interview");
+        setInterview(response.data); // Update state with fetched data
+      } catch (err) {
+        setError("Error fetching data"); // Handle errors
+      }
+    };
+
+    fetchUsers(); // Call the function
+  }, []); // Empty dependency array ensures this runs only once
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,7 +56,6 @@ const ViewAllCv = () => {
         // Make a GET request to your API
         const response = await axios.get("http://localhost:3000/api/user");
         setUsers(response.data); // Update state with fetched data
-        console.log(response.data);
         setLoading(false); // Set loading to false
       } catch (err) {
         setError("Error fetching data"); // Handle errors
@@ -40,6 +68,7 @@ const ViewAllCv = () => {
 
   // Example data
   const rows = users.map((user) => ({
+    id: user._id,
     refno: user._id,
     nic: user.nic,
     user: user,
@@ -111,25 +140,26 @@ const ViewAllCv = () => {
   const fields = [
     {
       name: "interview",
-      label: "SELECT INTERVIEW",
+      label: "INTERVIEW",
       type: "select",
-      options: [
-        { value: "interview_01", label: "Interview 01" },
-        { value: "interview_02", label: "Interview 02" },
-      ],
-      rules: { required: "Scheme is required" },
+      options: interviews.map((interview) => ({
+        value: interview._id,
+        label: interview.label,
+      })),
+      rules: { required: "Interview is required" },
     },
     {
       name: "scheme",
       label: "SELECT SCHEME",
       type: "select",
       options: [
-        { value: "scheme_01", label: "Scheme 01" },
-        { value: "scheme_02", label: "Scheme 02" },
+        { value: "schedue_01", label: "schedue_01" },
+        { value: "schedue_02", label: "schedue_02" },
       ],
       rules: { required: "Scheme is required" },
     },
   ];
+
 
   const handleChange = (event) => {
     setAge(event.target.value);
