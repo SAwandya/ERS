@@ -9,6 +9,7 @@ import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import ReusablePopup from "../ReusablePopup";
 import useEmployeeQueryStore from "../../store";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const ViewAllCv = () => {
   const [age, setAge] = React.useState("");
@@ -160,6 +161,24 @@ const ViewAllCv = () => {
     },
   ];
 
+  const handleSheduleInterview = () => {
+    if (!selectedRow) {
+      toast.warn("Please select intern!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      console.log("Please select a row");
+    } else {
+      setOpen(true);
+    }
+  };
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -173,6 +192,19 @@ const ViewAllCv = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
       <Box
         sx={{
           padding: 7,
@@ -235,7 +267,7 @@ const ViewAllCv = () => {
               sx={{ height: "100%", backgroundColor: "#615EFC" }}
               fullWidth
               color="success"
-              onClick={() => setOpen(true)}
+              onClick={() => handleSheduleInterview()}
             >
               Shedule Interviews
             </Button>

@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import ReusablePopup from "../ReusablePopup";
+import { useNavigate } from "react-router-dom";
 
 const AllInterviews = () => {
   const [interviews, setInterviews] = useState([]); // State to store fetched data
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -19,7 +22,6 @@ const AllInterviews = () => {
         // Make a GET request to your API
         const response = await axios.get("http://localhost:3000/api/interview");
         setInterviews(response.data); // Update state with fetched data
-        console.log(response.data);
         setLoading(false); // Set loading to false
       } catch (err) {
         setError("Error fetching data"); // Handle errors
@@ -30,7 +32,12 @@ const AllInterviews = () => {
     fetchUsers(); // Call the function
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleViewInterview = (row) => {
+    navigate(`/interviewdetails/${row.id}`);
+  };
+
   const rows = interviews.map((scheme) => ({
+    id: scheme._id,
     interviewLabel: scheme.label,
     date: scheme.date ? new Date(scheme.date).toDateString() : "",
     time: scheme.time,
@@ -65,7 +72,7 @@ const AllInterviews = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`View ${row.name}`)}
+          onClick={() => handleViewInterview(row)}
         >
           VIEW
         </Button>

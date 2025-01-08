@@ -15,6 +15,7 @@ import LifeCycle from "./components/content/LifeCycle";
 import Requests from "./components/content/Requests";
 import AllInterviews from "./components/content/AllInterviews";
 import AddNewInterview from "./components/content/AddNewInterview";
+import InterviewDetails from "./components/content/InterviewDetails";
 
 
 const router = createBrowserRouter([
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
       {
         path: "/addnewinterview",
         element: <AddNewInterview />,
+      },
+      {
+        path: "/interviewdetails/:id",
+        element: <InterviewDetails />,
       },
     ],
   },

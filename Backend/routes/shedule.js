@@ -81,6 +81,50 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+router.get("/interview/:id", async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).send("Invalid interview ID.");
+  }
+
+  try {
+    const schedules = await InterviewShedule.find({ interview: req.params.id })
+      .populate("interview")
+      .populate("user");
+    res.send(schedules);
+  } catch (err) {
+    res.status(500).send("An error occurred: " + err.message);
+  }
+});
+
+router.put("/status", async (req, res) => {
+  const { scheduleIdList, status } = req.body;
+
+  if (!Array.isArray(scheduleIdList) || scheduleIdList.length === 0) {
+    return res
+      .status(400)
+      .send("Invalid input. Provide an array of schedule IDs.");
+  }
+
+  const invalidIds = scheduleIdList.filter(
+    (id) => !mongoose.Types.ObjectId.isValid(id)
+  );
+  if (invalidIds.length > 0) {
+    return res
+      .status(400)
+      .send(`Invalid schedule IDs: ${invalidIds.join(", ")}`);
+  }
+
+  try {
+    const updatedSchedules = await InterviewShedule.updateMany(
+      { _id: { $in: scheduleIdList } },
+      { status }
+    );
+    res.send(updatedSchedules);
+  } catch (err) {
+    res.status(500).send("An error occurred: " + err.message);
+  }
+});
+
 // Update schedule by ID
 router.put("/:id", async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
