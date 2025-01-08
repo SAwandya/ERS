@@ -64,6 +64,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/passed", async (req, res) => {
+  try {
+    const schedules = await InterviewShedule.find({ status: true })
+      .populate("interview")
+      .populate("user");
+    res.send(schedules);
+  } catch (err) {
+    res.status(500).send("An error occurred: " + err.message);
+  }
+});
+
 // Get schedule by ID
 router.get("/:id", async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
