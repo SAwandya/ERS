@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ReusableForm from "./ReusableForm";
 
-const ReusablePopup = ({ open, onClose, fields, onSubmit }) => {
+const ReusablePopup = ({ open, onClose, fields, onSubmit, hedding }) => {
   const [selectedInterview, setSelectedInterview] = useState("");
   const [selectedScheme, setSelectedScheme] = useState("");
 
@@ -39,21 +39,11 @@ const ReusablePopup = ({ open, onClose, fields, onSubmit }) => {
     >
       <DialogTitle>
         <Typography variant="h5" style={{ color: "#333" }}>
-          Schedule Interview
+          {hedding || "Add hedding here"}
         </Typography>
       </DialogTitle>
 
       <DialogContent>
-        <Typography
-          variant="h6"
-          style={{
-            color: "#666",
-            marginBottom: "20px",
-          }}
-        >
-          Interview Details
-        </Typography>
-
         <ReusableForm fields={fields} onSubmit={onSubmit} />
 
         <Box

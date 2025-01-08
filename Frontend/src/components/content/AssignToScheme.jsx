@@ -4,11 +4,20 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReusableTable from "../ReusableTable";
 import useEmployeeQueryStore from "../../store";
+import ReusablePopup from "../ReusablePopup";
 
 const InterviewDetails = () => {
   const { id } = useParams();
 
   const [shedules, setShedules] = useState([]);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
+  const handleAssignToScheme = () => {
+    setOpen(true);
+  };
 
   useEffect(() => {
     const fetchInterview = async () => {
@@ -24,6 +33,38 @@ const InterviewDetails = () => {
 
     fetchInterview();
   }, [id]);
+
+  const [open, setOpen] = useState(false);
+
+  const fields = [
+    {
+      name: "managerName",
+      label: "MANAGER NAME",
+      type: "select",
+      options: [
+        { value: "manager1", label: "Manager1" },
+        { value: "manager2", label: "Manager2" },
+        { value: "manager3", label: "Manager3" },
+      ],
+      rules: { required: "manager name is required" },
+      gridSize: { md: 12 },
+    },
+    {
+      name: "internshipPeriod",
+      label: "INTERNSHIP PERIOD(number of months)",
+      type: "number",
+      rules: { required: "internship period is required" },
+      gridSize: { md: 12 },
+    },
+    {
+      name: "internshipStart",
+      label: "INTERNSHIP START",
+      type: "date",
+      rules: { required: "internship start date is required" },
+      gridSize: { md: 12 },
+    },
+    { name: "forRequest", label: "FOR REQUEST", type: "switch" },
+  ];
 
   const rows = shedules.map((shedule) => ({
     id: shedule._id,
@@ -86,7 +127,7 @@ const InterviewDetails = () => {
         </Typography>
 
         <Button
-          onClick={() => alert(`View ${selectedRow}`)}
+          onClick={() => handleAssignToScheme()}
           color="secondary"
           variant="contained"
         >
@@ -94,6 +135,13 @@ const InterviewDetails = () => {
         </Button>
       </Box>
       <ReusableTable rows={rows} columns={columns} />
+      <ReusablePopup
+        open={open}
+        onClose={() => setOpen(false)}
+        fields={fields}
+        onSubmit={onSubmit}
+        hedding={'Assign to Scheme'}
+      />
     </Box>
   );
 };

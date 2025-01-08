@@ -10,6 +10,7 @@ import {
   FormLabel,
   RadioGroup,
   Radio,
+  Switch,
 } from "@mui/material";
 
 const InputField = ({
@@ -102,6 +103,22 @@ const InputField = ({
             label={option.label}
           />
         ));
+      case "switch":
+        return (
+          <FormControlLabel
+            control={
+              <Switch
+                checked={!!field.value}
+                color="warning"
+                onChange={(e) => {
+                  field.onChange(e.target.checked); // Update react-hook-form state
+                  if (onChange) onChange(e.target.checked); // Call custom onChange handler
+                }}
+              />
+            }
+            label={label}
+          />
+        );
       default:
         return <TextField {...commonProps} type={type} label={label} />;
     }
