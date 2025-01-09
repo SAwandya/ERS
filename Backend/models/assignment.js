@@ -2,7 +2,7 @@ const Joi = require("joi");
 const { default: mongoose } = require("mongoose");
 
 const assignmentSchema = new mongoose.Schema({
-  manager: {
+  supervisor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "supervisor",
     required: true,
@@ -34,10 +34,10 @@ const Assignment = mongoose.model("Assignment", assignmentSchema);
 
 function validateAssignment(assignment) {
   const schema = Joi.object({
-    manager: Joi.string().required(),
+    supervisor: Joi.string().required(),
     internshipPeriod: Joi.string().required(),
     internshipStart: Joi.string().required(),
-    forRequest: Joi.boolean().required(),
+    forRequest: Joi.boolean(),
     user: Joi.string(),
     interview: Joi.string(),
   });
@@ -45,5 +45,5 @@ function validateAssignment(assignment) {
   return schema.validate(assignment);
 }
 
-module.exports.Institute = Assignment;
+module.exports.Assignment = Assignment;
 module.exports.validate = validateAssignment;
