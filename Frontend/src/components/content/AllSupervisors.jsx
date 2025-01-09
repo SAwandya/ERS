@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -17,14 +17,32 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate, useParams } from "react-router-dom";
 import SupervisorPopupForm from "./SupervisorPopupForm";
+import axios from "axios";
 
 const AllSupervisors = () => {
-  const [schemeName, setSchemeName] = useState("IT Intern Schem");
+  const [schemes, setSchemes] = useState([]);
   const [totalAllocation, setTotalAllocation] = useState("25");
 
   const [open, setOpen] = useState(false);
 
   const { id } = useParams();
+
+  useEffect(() => {
+    const fetchSchemes = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/scheme/${id}`
+        );
+        setSchemes(response.data);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchSchemes();
+  }, []);
+
+  console.log(schemes);
 
   return (
     <Box sx={{ p: 3, backgroundColor: "#f5f9fc" }}>
@@ -35,14 +53,14 @@ const AllSupervisors = () => {
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
         <TextField
           label="Scheme Name"
-          value={schemeName}
+          value={schemes.name}
           onChange={(e) => setSchemeName(e.target.value)}
           size="small"
           sx={{ backgroundColor: "white" }}
         />
         <TextField
           label="Total Allocation"
-          value={totalAllocation}
+          value={schemes.allocation}
           onChange={(e) => setTotalAllocation(e.target.value)}
           size="small"
           sx={{ backgroundColor: "white" }}
@@ -73,12 +91,9 @@ const AllSupervisors = () => {
 
       {/* Manager Items */}
       <Stack spacing={2}>
-        {[
-          { name: "Shrivi Sandamini", id: "012300", self: 4, hierarchy: 4 },
-          { name: "Kapila Kulasena", id: "008316", self: 5, hierarchy: 8 },
-        ].map((manager) => (
+        {schemes.supervisors?.map((manager) => (
           <Paper
-            key={manager.id}
+            key={manager._id}
             sx={{
               p: 2,
               backgroundColor: "#f8f9fa",
@@ -93,8 +108,8 @@ const AllSupervisors = () => {
               }}
             >
               <Typography>
-                Name: {manager.name} ({manager.id}) Self: {manager.self}{" "}
-                Hierarchy: {manager.hierarchy}
+                Name: {manager.supervisor.name} ({manager.supervisor.supId}) Self:{" "}
+                {manager.supervisor.supId} Hierarchy: {manager.hierarchy}
               </Typography>
               <Stack direction="row" spacing={1}>
                 <Button
@@ -121,7 +136,11 @@ const AllSupervisors = () => {
           </Paper>
         ))}
       </Stack>
-      <SupervisorPopupForm schemeId={id} open={open} onClose={() => setOpen(false)} />
+      <SupervisorPopupForm
+        schemeId={id}
+        open={open}
+        onClose={() => setOpen(false)}
+      />
     </Box>
   );
 };

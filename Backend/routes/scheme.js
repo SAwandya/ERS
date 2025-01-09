@@ -44,7 +44,9 @@ router.get("/:id/supervisors", async (req, res) => {
 // Route: GET a specific scheme by ID
 router.get("/:id", async (req, res) => {
   try {
-    const scheme = await Scheme.findById(req.params.id);
+    const scheme = await Scheme.findById(req.params.id).populate(
+      "supervisors.supervisor"
+    );
     if (!scheme) return res.status(404).send("Scheme not found.");
     res.send(scheme);
   } catch (err) {

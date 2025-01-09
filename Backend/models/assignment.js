@@ -2,8 +2,9 @@ const Joi = require("joi");
 const { default: mongoose } = require("mongoose");
 
 const assignmentSchema = new mongoose.Schema({
-  managerName: {
-    type: String,
+  manager: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "supervisor",
     required: true,
   },
   internshipPeriod: {
@@ -19,16 +20,26 @@ const assignmentSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  interview: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Interview",
+  },
 });
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
 
 function validateAssignment(assignment) {
   const schema = Joi.object({
-    managerName: Joi.string().required(),
+    manager: Joi.string().required(),
     internshipPeriod: Joi.string().required(),
     internshipStart: Joi.string().required(),
-    forRequest: Joi.boolean()
+    forRequest: Joi.boolean().required(),
+    user: Joi.string(),
+    interview: Joi.string(),
   });
 
   return schema.validate(assignment);
