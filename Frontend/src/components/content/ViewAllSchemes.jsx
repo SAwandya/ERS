@@ -3,12 +3,14 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ViewAllSchemes = () => {
-
   const [schemes, setScheme] = useState([]); // State to store fetched data
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,7 +29,12 @@ const ViewAllSchemes = () => {
     fetchUsers(); // Call the function
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleView = (id) => {
+    navigate(`/allsupervisors/${id}`);
+  };
+
   const rows = schemes.map((scheme) => ({
+    id: scheme._id,
     schemeName: scheme.name,
     totalAllocation: scheme.allocation,
     recurring: scheme.recurring,
@@ -46,7 +53,7 @@ const ViewAllSchemes = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`View ${row.name}`)}
+          onClick={() => handleView(row.id)}
         >
           View scheme
         </Button>
@@ -103,4 +110,3 @@ const ViewAllSchemes = () => {
 };
 
 export default ViewAllSchemes;
-

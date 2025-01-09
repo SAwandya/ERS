@@ -16,8 +16,7 @@ import Requests from "./components/content/Requests";
 import AllInterviews from "./components/content/AllInterviews";
 import AddNewInterview from "./components/content/AddNewInterview";
 import InterviewDetails from "./components/content/InterviewDetails";
-import ManagerSchemeForm from "./components/content/ManagerSchemeForm";
-
+import AllSupervisors from "./components/content/AllSupervisors";
 
 const router = createBrowserRouter([
   {
@@ -85,8 +84,8 @@ const router = createBrowserRouter([
         element: <InterviewDetails />,
       },
       {
-        path: "/addsupervisor",
-        element: <ManagerSchemeForm />,
+        path: "/allsupervisors/:id",
+        element: <AllSupervisors />,
       },
     ],
   },
