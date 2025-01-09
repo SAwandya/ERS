@@ -20,13 +20,9 @@ const assignmentSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
-  user: {
+  shedule: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  interview: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Interview",
+    ref: "InterviewShedule",
   },
 });
 
@@ -37,9 +33,8 @@ function validateAssignment(assignment) {
     supervisor: Joi.string().required(),
     internshipPeriod: Joi.string().required(),
     internshipStart: Joi.string().required(),
-    forRequest: Joi.boolean(),
-    user: Joi.string(),
-    interview: Joi.string(),
+    forRequest: Joi.boolean().required(),
+    shedule: Joi.string(),
   });
 
   return schema.validate(assignment);

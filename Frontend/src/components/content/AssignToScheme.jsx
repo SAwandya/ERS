@@ -11,8 +11,40 @@ const InterviewDetails = () => {
 
   const [shedules, setShedules] = useState([]);
 
+  const [supervisors, setSupervisor] = useState([]);
+
+  const selecetedRow = useEmployeeQueryStore((state) => state.selectedRow);
+
+  useEffect(() => {
+    const fetchInterview = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/supervisor`
+        );
+        setSupervisor(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchInterview();
+  }, [id]);
+
   const onSubmit = async (data) => {
-    console.log(data);
+    const formData = {
+      ...data,
+      shedules: selecetedRow,
+    };
+
+    await axios
+      .post(`http://localhost:3000/api/assignment`, formData)
+      .then((res) => {
+        console.log(res);
+        alert("Assigned to scheme successfully");
+      })
+      .catch((err) => console.log(err));
+
+    console.log(formData);
   };
 
   const handleAssignToScheme = () => {
@@ -38,14 +70,13 @@ const InterviewDetails = () => {
 
   const fields = [
     {
-      name: "managerName",
-      label: "MANAGER NAME",
+      name: "supervisor",
+      label: "SUPERVISOR NAME",
       type: "select",
-      options: [
-        { value: "manager1", label: "Manager1" },
-        { value: "manager2", label: "Manager2" },
-        { value: "manager3", label: "Manager3" },
-      ],
+      options: supervisors.map((supervisor) => ({
+        value: supervisor._id,
+        label: supervisor.supId + supervisor.name,
+      })),
       rules: { required: "manager name is required" },
       gridSize: { md: 12 },
     },
@@ -140,7 +171,7 @@ const InterviewDetails = () => {
         onClose={() => setOpen(false)}
         fields={fields}
         onSubmit={onSubmit}
-        hedding={'Assign to Scheme'}
+        hedding={"Assign to Scheme"}
       />
     </Box>
   );

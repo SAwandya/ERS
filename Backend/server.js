@@ -9,6 +9,7 @@ const interview = require("./routes/interview");
 const scheme = require("./routes/scheme");
 const shedule = require("./routes/shedule");
 const supervisor = require("./routes/supervisor");
+const assignment = require("./routes/assignment");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -36,6 +37,7 @@ app.use("/api/interview", interview);
 app.use("/api/scheme", scheme);
 app.use("/api/schedule", shedule);
 app.use("/api/supervisor", supervisor);
+app.use("/api/assignment", assignment);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));

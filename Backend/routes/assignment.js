@@ -1,92 +1,46 @@
 const express = require("express");
-const { Assignment, validate } = require("../models/assignment"); // Adjust path as necessary
-const { model } = require("mongoose");
+const { Assignment, validate } = require("../models/assignment"); // Adjust the path as needed
+const Joi = require("joi");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const assignments = await Assignment.find()
-      .populate("manager", "name") // Replace "name" with actual fields in the supervisor schema
-      .populate("user", "username email") // Replace with actual fields in the User schema
-      .populate("interview", "date time"); // Replace with actual fields in the Interview schema
-
-    res.status(200).send(assignments);
-  } catch (error) {
-    res.status(500).send({ error: "Error fetching assignments" });
-  }
-});
-
-router.get("/:id", async (req, res) => {
-  try {
-    const assignment = await Assignment.findById(req.params.id)
-      .populate("manager", "name")
-      .populate("user", "username email")
-      .populate("interview", "date time");
-
-    if (!assignment) return res.status(404).send("Assignment not found");
-
-    res.status(200).send(assignment);
-  } catch (error) {
-    res.status(500).send({ error: "Error fetching assignment" });
-  }
-});
-
+// POST route to create assignments for an array of schedule IDs
 router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
+  const { error } = Joi.object({
+    supervisor: Joi.string().required(),
+    internshipPeriod: Joi.string().required(),
+    internshipStart: Joi.string().required(),
+    forRequest: Joi.boolean().required(),
+    shedules: Joi.array().items(Joi.string().required()).required(),
+  }).validate(req.body);
+
   if (error) return res.status(400).send({ error: error.details[0].message });
 
-  try {
-    const assignment = new Assignment({
-      manager: req.body.manager,
-      internshipPeriod: req.body.internshipPeriod,
-      internshipStart: req.body.internshipStart,
-      forRequest: req.body.forRequest,
-      user: req.body.user,
-      interview: req.body.interview,
-    });
-
-    await assignment.save();
-    res.status(201).send(assignment);
-  } catch (error) {
-    res.status(500).send({ error: "Error creating assignment" });
-  }
-});
-
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send({ error: error.details[0].message });
+  const {
+    supervisor,
+    internshipPeriod,
+    internshipStart,
+    forRequest,
+    shedules,
+  } = req.body;
 
   try {
-    const assignment = await Assignment.findByIdAndUpdate(
-      req.params.id,
-      {
-        manager: req.body.manager,
-        internshipPeriod: req.body.internshipPeriod,
-        internshipStart: req.body.internshipStart,
-        forRequest: req.body.forRequest,
-        user: req.body.user,
-        interview: req.body.interview,
-      },
-      { new: true }
+    // Create assignments for each schedule ID
+    const assignments = await Promise.all(
+      shedules.map(async (shedule) => {
+        const assignment = new Assignment({
+          supervisor,
+          internshipPeriod,
+          internshipStart,
+          forRequest,
+          shedule,
+        });
+        return await assignment.save();
+      })
     );
 
-    if (!assignment) return res.status(404).send("Assignment not found");
-
-    res.status(200).send(assignment);
-  } catch (error) {
-    res.status(500).send({ error: "Error updating assignment" });
-  }
-});
-
-router.delete("/:id", async (req, res) => {
-  try {
-    const assignment = await Assignment.findByIdAndDelete(req.params.id);
-
-    if (!assignment) return res.status(404).send("Assignment not found");
-
-    res.status(200).send({ message: "Assignment deleted successfully" });
-  } catch (error) {
-    res.status(500).send({ error: "Error deleting assignment" });
+    res.status(201).send(assignments);
+  } catch (err) {
+    res.status(500).send({ error: "Error creating assignments" });
   }
 });
 
