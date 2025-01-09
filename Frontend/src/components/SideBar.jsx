@@ -86,7 +86,11 @@ const Sidebar = () => {
         { text: "Add new institutes", path: "/addnewinstitute" },
       ],
     },
-
+    {
+      text: "Manage Supervisor",
+      icon: <DashboardIcon />,
+      path: "/managesupervisors",
+    },
   ];
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -15,38 +15,102 @@ import {
 } from "@mui/material";
 import { useFieldArray, useForm, Controller } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
-const SupervisorPopupForm = ({ open, onClose }) => {
-  const [selectedInterview, setSelectedInterview] = useState("");
-  const [selectedScheme, setSelectedScheme] = useState("");
+const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
+  const [supervisors, setSupervisors] = useState([]); // Store fetched data
+  const [selectedSupervisors, setSelectedSupervisors] = useState([]); // Track selected supervisors
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       managers: [
         {
           supervisor: "",
           allocation: "",
-          subManagers: [],
         },
       ],
     },
   });
+
+  const [schemeSupervisors, setSchemeSupervisors] = useState([]);
+
+  useEffect(() => {
+    const fetchSupervisors = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/supervisor"
+        );
+        setSupervisors(response.data);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+
+    fetchSupervisors();
+  }, []);
+
+  useEffect(() => {
+    const fetchSchemeSupervisors = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/scheme/${schemeId}/supervisors`
+        );
+        setSchemeSupervisors(response.data);
+
+        // Set default values for the form based on fetched scheme supervisors
+        const defaultManagers = response.data.map((item) => ({
+          supervisor: item.supervisor._id,
+          allocation: item.allocation,
+        }));
+
+        reset({ managers: defaultManagers }); // Reset form values
+        setSelectedSupervisors(defaultManagers.map((item) => item.supervisor)); // Set selected supervisors
+      } catch (err) {
+        console.error("Error fetching scheme supervisors:", err);
+      }
+    };
+
+    if (schemeId) fetchSchemeSupervisors();
+  }, [schemeId, reset]);
+
+
+  
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "managers",
   });
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data) => {
+    console.log("Form Data:", data.managers);
+
+    console.log("Scheme ID:", schemeId);
+
+    await axios
+      .put(`http://localhost:3000/api/scheme/${schemeId}/supervisors`, {
+        supervisors: data.managers,
+      })
+      .then((response) => {
+        console.log("Response:", response.data);
+        onClose();
+      })
+      .catch((err) => {
+        console.error("An error occurred:", err.message);
+      });
   };
 
-  const handleInterviewChange = (event) => {
-    setSelectedInterview(event.target.value);
+  const handleSupervisorChange = (value, index) => {
+    const updatedSelected = [...selectedSupervisors];
+    updatedSelected[index] = value;
+    setSelectedSupervisors(updatedSelected);
   };
 
-  const handleSchemeChange = (event) => {
-    setSelectedScheme(event.target.value);
+  const getFilteredSupervisors = (index) => {
+    return supervisors.filter(
+      (supervisor) =>
+        !selectedSupervisors.includes(supervisor._id) ||
+        selectedSupervisors[index] === supervisor._id
+    );
   };
 
   return (
@@ -69,37 +133,10 @@ const SupervisorPopupForm = ({ open, onClose }) => {
       </DialogTitle>
 
       <DialogContent>
-        <Box sx={{ p: 3, position: "relative" }}>
+        <Box sx={{ p: 3 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {fields.map((field, index) => (
-              <Box
-                key={field.id}
-                sx={{
-                  mb: 2,
-                  ml: index * 3,
-                  position: "relative",
-                  "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    left: "-20px",
-                    top: "20px",
-                    width: "20px",
-                    height: "1px",
-                    backgroundColor: "#ccc",
-                    display: index > 0 ? "block" : "none",
-                  },
-                  "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    left: "-20px",
-                    top: "0",
-                    width: "1px",
-                    height: "100%",
-                    backgroundColor: "#ccc",
-                    display: index > 0 ? "block" : "none",
-                  },
-                }}
-              >
+              <Box key={field.id} sx={{ mb: 2 }}>
                 <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                   <FormControl fullWidth>
                     <InputLabel>Select Supervisor</InputLabel>
@@ -108,16 +145,22 @@ const SupervisorPopupForm = ({ open, onClose }) => {
                       control={control}
                       defaultValue=""
                       render={({ field }) => (
-                        <Select {...field} label="Select Supervisor">
-                          <MenuItem value="010067">
-                            010067 Janaka Harambearachchi
-                          </MenuItem>
-                          <MenuItem value="011338">
-                            011338 Kosala Tennakoon
-                          </MenuItem>
-                          <MenuItem value="012459">
-                            012459 Sandun Amarasinghe
-                          </MenuItem>
+                        <Select
+                          {...field}
+                          label="Select Supervisor"
+                          onChange={(event) => {
+                            field.onChange(event.target.value);
+                            handleSupervisorChange(event.target.value, index);
+                          }}
+                        >
+                          {getFilteredSupervisors(index).map((supervisor) => (
+                            <MenuItem
+                              key={supervisor._id}
+                              value={supervisor._id}
+                            >
+                              {supervisor.supId} {supervisor.name}
+                            </MenuItem>
+                          ))}
                         </Select>
                       )}
                     />
@@ -152,7 +195,6 @@ const SupervisorPopupForm = ({ open, onClose }) => {
                       append({
                         supervisor: "",
                         allocation: "",
-                        subManagers: [],
                       })
                     }
                     sx={{ mt: 1 }}
@@ -176,6 +218,7 @@ const SupervisorPopupForm = ({ open, onClose }) => {
             </Box>
           </form>
         </Box>
+
         <Box
           sx={{
             display: "flex",

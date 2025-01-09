@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SupervisorPopupForm from "./SupervisorPopupForm";
 
 const AllSupervisors = () => {
@@ -23,6 +23,8 @@ const AllSupervisors = () => {
   const [totalAllocation, setTotalAllocation] = useState("25");
 
   const [open, setOpen] = useState(false);
+
+  const { id } = useParams();
 
   return (
     <Box sx={{ p: 3, backgroundColor: "#f5f9fc" }}>
@@ -119,7 +121,7 @@ const AllSupervisors = () => {
           </Paper>
         ))}
       </Stack>
-      <SupervisorPopupForm open={open} onClose={() => setOpen(false)} />
+      <SupervisorPopupForm schemeId={id} open={open} onClose={() => setOpen(false)} />
     </Box>
   );
 };

@@ -17,6 +17,7 @@ import AllInterviews from "./components/content/AllInterviews";
 import AddNewInterview from "./components/content/AddNewInterview";
 import InterviewDetails from "./components/content/InterviewDetails";
 import AllSupervisors from "./components/content/AllSupervisors";
+import ManageSupervisors from "./components/content/ManageSupervisors";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "/allsupervisors/:id",
         element: <AllSupervisors />,
+      },
+      {
+        path: "/managesupervisors",
+        element: <ManageSupervisors />,
       },
     ],
   },

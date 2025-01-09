@@ -1,5 +1,7 @@
 const express = require("express");
 const { Scheme, validate } = require("../models/scheme"); // Adjust the path if needed
+const Joi = require("joi");
+const { default: mongoose } = require("mongoose");
 const router = express.Router();
 
 // Route: GET all schemes
@@ -9,6 +11,33 @@ router.get("/", async (req, res) => {
     res.send(schemes);
   } catch (err) {
     res.status(500).send("Error fetching schemes: " + err.message);
+  }
+});
+
+// Get supervisors of a scheme
+router.get("/:id/supervisors", async (req, res) => {
+  const schemeId = req.params.id;
+
+  // Validate the scheme ID
+  if (!mongoose.Types.ObjectId.isValid(schemeId)) {
+    return res.status(400).send("Invalid scheme ID.");
+  }
+
+  try {
+    // Find the scheme and populate the supervisors
+    const scheme = await Scheme.findById(schemeId).populate(
+      "supervisors.supervisor", // Populate the 'supervisor' field
+      "name email" // Select specific fields from the Supervisor model (adjust as needed)
+    );
+
+    if (!scheme) {
+      return res.status(404).send("Scheme not found.");
+    }
+
+    // Return the supervisors
+    res.send(scheme.supervisors);
+  } catch (err) {
+    res.status(500).send("An error occurred while retrieving supervisors.");
   }
 });
 
@@ -53,6 +82,43 @@ router.put("/:id", async (req, res) => {
     res.send(scheme);
   } catch (err) {
     res.status(500).send("Error updating the scheme: " + err.message);
+  }
+});
+
+// Update supervisors in a scheme
+router.put("/:id/supervisors", async (req, res) => {
+  // Validate input
+  const schema = Joi.object({
+    supervisors: Joi.array()
+      .items(
+        Joi.object({
+          supervisor: Joi.string().required(),
+          allocation: Joi.string().required(),
+        })
+      )
+      .required(),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  // Check if the scheme exists
+  const schemeId = req.params.id;
+  if (!mongoose.Types.ObjectId.isValid(schemeId)) {
+    return res.status(400).send("Invalid scheme ID.");
+  }
+
+  let scheme = await Scheme.findById(schemeId);
+  if (!scheme) return res.status(404).send("Scheme not found.");
+
+  // Update supervisors
+  scheme.supervisors = req.body.supervisors;
+
+  try {
+    scheme = await scheme.save();
+    res.send(scheme);
+  } catch (err) {
+    res.status(500).send("An error occurred while updating the scheme.");
   }
 });
 

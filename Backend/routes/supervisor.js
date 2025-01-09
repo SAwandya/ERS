@@ -1,5 +1,5 @@
 const express = require("express");
-const { Supervisor, validate } = require("./path-to-model");
+const { Supervisor, validate } = require("../models/supervisor");
 const router = express.Router();
 
 // Create a new supervisor

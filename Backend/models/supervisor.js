@@ -7,11 +7,11 @@ const supervisorSchema = new mongoose.Schema({
     required: true,
   },
   name: {
-    type: Number,
+    type: String,
     required: true,
   },
   email: {
-    type: Boolean,
+    type: String,
     required: true,
   },
 });
@@ -21,8 +21,8 @@ const Supervisor = mongoose.model("Supervisor", supervisorSchema);
 function validateSupervisor(supervisor) {
   const schema = Joi.object({
     supId: Joi.string().required(),
-    name: Joi.number().required(),
-    email: Joi.boolean().required(),
+    name: Joi.string().required(),
+    email: Joi.string().required(),
   });
 
   return schema.validate(supervisor);

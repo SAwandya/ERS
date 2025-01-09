@@ -33,9 +33,14 @@ const schemeSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true
-  }
- 
+    required: true,
+  },
+  supervisors: [
+    {
+      supervisor: { type: mongoose.Schema.Types.ObjectId, ref: "Supervisor" },
+      allocation: { type: String, required: true },
+    },
+  ],
 });
 
 const Scheme = mongoose.model("Scheme", schemeSchema);
@@ -49,7 +54,13 @@ function validateScheme(scheme) {
     rotational: Joi.boolean().required(),
     allowance: Joi.number().required(),
     currency: Joi.string().required(),
-    description: Joi.string().required()
+    description: Joi.string().required(),
+    supervisors: Joi.array().items(
+      Joi.object({
+        supervisor: Joi.string().required(),
+        allocation: Joi.number().required(),
+      })
+    ),
   });
 
   return schema.validate(scheme);

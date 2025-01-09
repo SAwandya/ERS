@@ -18,7 +18,6 @@ const ViewAllSchemes = () => {
         // Make a GET request to your API
         const response = await axios.get("http://localhost:3000/api/scheme");
         setScheme(response.data); // Update state with fetched data
-        console.log(response.data);
         setLoading(false); // Set loading to false
       } catch (err) {
         setError("Error fetching data"); // Handle errors
