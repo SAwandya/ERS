@@ -19,6 +19,7 @@ import InterviewDetails from "./components/content/InterviewDetails";
 import AllSupervisors from "./components/content/AllSupervisors";
 import ManageSupervisors from "./components/content/ManageSupervisors";
 import SignIn from "./pages/SignIn";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -31,67 +32,131 @@ const router = createBrowserRouter([
       },
       {
         path: "/addnewcv",
-        element: <AddNewCv />,
+        element: (
+          <ProtectedRoute>
+            <AddNewCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/viewallcv",
-        element: <ViewAllCv />,
+        element: (
+          <ProtectedRoute>
+            <ViewAllCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/approvedcv",
-        element: <ApprovedCv />,
+        element: (
+          <ProtectedRoute>
+            <ApprovedCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewinstitute",
-        element: <AddNewInstitute />,
+        element: (
+          <ProtectedRoute>
+            <AddNewInstitute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/instituterequest",
-        element: <InstitutesRegistrationRequest />,
+        element: (
+          <ProtectedRoute>
+            <InstitutesRegistrationRequest />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/internstatus",
-        element: <InternStatus />,
+        element: (
+          <ProtectedRoute>
+            <InternStatus />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/viewallschemes",
-        element: <ViewAllSchemes />,
+        element: (
+          <ProtectedRoute>
+            <ViewAllSchemes />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewschemes",
-        element: <AddNewSchemes />,
+        element: (
+          <ProtectedRoute>
+            <AddNewSchemes />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/assigntoscheme",
-        element: <AssignToScheme />,
+        element: (
+          <ProtectedRoute>
+            <AssignToScheme />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/lifecycle",
-        element: <LifeCycle />,
+        element: (
+          <ProtectedRoute>
+            <LifeCycle />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/requests",
-        element: <Requests />,
+        element: (
+          <ProtectedRoute>
+            <Requests />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/allinterviews",
-        element: <AllInterviews />,
+        element: (
+          <ProtectedRoute>
+            <AllInterviews />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewinterview",
-        element: <AddNewInterview />,
+        element: (
+          <ProtectedRoute>
+            <AddNewInterview />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/interviewdetails/:id",
-        element: <InterviewDetails />,
+        element: (
+          <ProtectedRoute>
+            <InterviewDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/allsupervisors/:id",
-        element: <AllSupervisors />,
+        element: (
+          <ProtectedRoute>
+            <AllSupervisors />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/managesupervisors",
-        element: <ManageSupervisors />,
+        element: (
+          <ProtectedRoute>
+            <ManageSupervisors />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
