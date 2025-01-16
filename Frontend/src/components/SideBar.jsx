@@ -16,14 +16,19 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstructions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ErrorIcon from "@mui/icons-material/Error";
-import WorkIcon from '@mui/icons-material/Work';
+import WorkIcon from "@mui/icons-material/Work";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import { useAuth } from "../Context/AuthContext";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const drawerWidth = 240;
+
+  const { getCurrentUser } = useAuth();
+
+  const { role } = getCurrentUser();
 
   // State to track which dropdown is open
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -37,7 +42,7 @@ const Sidebar = () => {
   };
 
   const menuItems = [
-    { text: "Home", icon: <DashboardIcon />, path: "/" },
+    { text: "Home", icon: <DashboardIcon />, path: "/", role: "admin" },
     {
       text: "Manage Cv",
       icon: <PeopleIcon />,
@@ -47,9 +52,15 @@ const Sidebar = () => {
         { text: "View All CV", path: "/viewallcv" },
         { text: "Approved CV", path: "/approvedcv" },
       ],
+      role: "admin",
     },
 
-    { text: "Intern status", icon: <DashboardIcon />, path: "/" },
+    {
+      text: "Intern status",
+      icon: <DashboardIcon />,
+      path: "/",
+      role: "admin",
+    },
     {
       text: "Interviews",
       icon: <PeopleIcon />,
@@ -58,13 +69,20 @@ const Sidebar = () => {
         { text: "All Interviews", path: "/allinterviews" },
         { text: "Add New Interview", path: "/addnewinterview" },
       ],
+      role: "admin",
     },
     {
       text: "Assign to Scheme",
       icon: <DashboardIcon />,
       path: "/assigntoscheme",
+      role: "admin",
     },
-    { text: "Life cycle", icon: <DashboardIcon />, path: "/lifecycle" },
+    {
+      text: "Life cycle",
+      icon: <DashboardIcon />,
+      path: "/lifecycle",
+      role: "admin",
+    },
 
     {
       text: "Schemes",
@@ -74,8 +92,14 @@ const Sidebar = () => {
         { text: "View All Schemes", path: "/viewallschemes" },
         { text: "Add New Schemes", path: "/addnewschemes" },
       ],
+      role: "admin",
     },
-    { text: "Requests", icon: <DashboardIcon />, path: "/requests" },
+    {
+      text: "Requests",
+      icon: <DashboardIcon />,
+      path: "/requests",
+      role: "admin",
+    },
 
     {
       text: "Manage Institutes",
@@ -85,13 +109,26 @@ const Sidebar = () => {
         { text: "All registration requests", path: "/instituterequest" },
         { text: "Add new institutes", path: "/addnewinstitute" },
       ],
+      role: "admin",
     },
     {
       text: "Manage Supervisor",
       icon: <DashboardIcon />,
       path: "/managesupervisors",
+      role: "admin",
+    },
+    {
+      text: "Individual Home",
+      icon: <DashboardIcon />,
+      path: "/individualhome",
+      role: "individual",
     },
   ];
+
+  // Filter menu items based on role
+  const filteredMenuItems = menuItems.filter(
+    (item) => item.role === role || !item.role
+  );
 
   return (
     <Drawer
@@ -123,7 +160,7 @@ const Sidebar = () => {
           },
         }}
       >
-        {menuItems.map((item) => (
+        {filteredMenuItems.map((item) => (
           <Box
             sx={{
               scrollbarWidth: "none", // Hides scrollbar in Firefox

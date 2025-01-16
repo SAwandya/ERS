@@ -20,6 +20,7 @@ import AllSupervisors from "./components/content/AllSupervisors";
 import ManageSupervisors from "./components/content/ManageSupervisors";
 import SignIn from "./pages/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
+import IndividualHome from "./components/content/IndividualHome";
 
 const router = createBrowserRouter([
   {
@@ -155,6 +156,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ManageSupervisors />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/individualhome",
+        element: (
+          <ProtectedRoute>
+            < IndividualHome/>
           </ProtectedRoute>
         ),
       },

@@ -149,6 +149,10 @@ const userSchema = new mongoose.Schema({
   trueAndCorrect: {
     type: Boolean,
   },
+  role: {
+    type: String,
+    default: "individual",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
@@ -209,6 +213,7 @@ function validateUser(user) {
     referedBy: Joi.string(),
     cvApprovel: Joi.boolean(),
     trueAndCorrect: Joi.boolean(),
+    role: Joi.string(),
   });
 
   const result = schema.validate(user);
