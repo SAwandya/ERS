@@ -21,6 +21,10 @@ import ManageSupervisors from "./components/content/ManageSupervisors";
 import SignIn from "./pages/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
 import IndividualHome from "./components/content/IndividualHome";
+import BankDetails from "./components/content/BankDetails";
+import Help from "./components/content/Help";
+import RoleBasedProtectedRoute from "./components/RoleBasedProtectedRoute";
+import Unauthorized from "./pages/Unauthorized";
 
 const router = createBrowserRouter([
   {
@@ -163,7 +167,23 @@ const router = createBrowserRouter([
         path: "/individualhome",
         element: (
           <ProtectedRoute>
-            < IndividualHome/>
+            <IndividualHome />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/bankdetails",
+        element: (
+          <ProtectedRoute>
+            <BankDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/help",
+        element: (
+          <ProtectedRoute>
+            <Help />
           </ProtectedRoute>
         ),
       },
@@ -178,6 +198,10 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SignIn />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
   },
 ]);
 

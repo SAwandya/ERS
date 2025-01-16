@@ -26,9 +26,11 @@ const Sidebar = () => {
   const location = useLocation();
   const drawerWidth = 240;
 
-  const { getCurrentUser } = useAuth();
+  const { getCurrentUser, authToken } = useAuth();
 
-  const { role } = getCurrentUser();
+  if (authToken) {
+    const { role } = getCurrentUser();
+  }
 
   // State to track which dropdown is open
   const [openDropdowns, setOpenDropdowns] = useState({});
@@ -121,6 +123,18 @@ const Sidebar = () => {
       text: "Individual Home",
       icon: <DashboardIcon />,
       path: "/individualhome",
+      role: "individual",
+    },
+    {
+      text: "Bank Details",
+      icon: <DashboardIcon />,
+      path: "/bankdetails",
+      role: "individual",
+    },
+    {
+      text: "Help",
+      icon: <DashboardIcon />,
+      path: "/help",
       role: "individual",
     },
   ];

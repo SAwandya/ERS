@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import ReusableForm from "../components/ReusableForm";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const onSubmit = async (data) => {
@@ -22,11 +23,14 @@ const Register = () => {
 
     const { confirmPassword, ...updatedData } = formData;
 
+    const navigate = useNavigate();
+
     await axios
       .post("http://localhost:3000/api/user/register", updatedData)
       .then((res) => {
         alert("User created successfully");
         console.log(res);
+        navigate("/signin");
       })
       .catch((err) => {
         console.log(err);

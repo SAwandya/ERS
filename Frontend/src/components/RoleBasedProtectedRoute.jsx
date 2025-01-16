@@ -1,15 +1,23 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../Context/AuthContext";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
-const RoleBasedProtectedRoute = ({ children }) => {
-  const { getCurrentUser } = useAuth();
+const RoleBasedProtectedRoute = ({ allowedRoles }) => {
+  const { authToken, getCurrentUser } = useAuth();
+
+  if (!authToken) {
+    // Redirect to login if not authenticated
+    return <Navigate to="/signin" />;
+  }
 
   const { role } = getCurrentUser();
 
-  console.log(role);
+  if (!allowedRoles.includes(role)) {
+    // Redirect to unauthorized page for role mismatch
+    return <Navigate to="/unauthorized" />;
+  }
 
-  return role == "admin" ? children : <Navigate to="/signin" replace />;
+  // Render child routes if role matches
+  return <Outlet />;
 };
 
 export default RoleBasedProtectedRoute;
