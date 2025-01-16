@@ -18,6 +18,7 @@ import AddNewInterview from "./components/content/AddNewInterview";
 import InterviewDetails from "./components/content/InterviewDetails";
 import AllSupervisors from "./components/content/AllSupervisors";
 import ManageSupervisors from "./components/content/ManageSupervisors";
+import SignIn from "./pages/SignIn";
 
 const router = createBrowserRouter([
   {
@@ -100,10 +101,10 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-  //   {
-  //     path: "/signin",
-  //     element: <SignInForm />,
-  //   },
+  {
+    path: "/signin",
+    element: <SignIn />,
+  },
 ]);
 
 export default router;

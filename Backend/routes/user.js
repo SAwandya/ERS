@@ -1,15 +1,39 @@
 const express = require("express");
 const { User, validate } = require("../models/user");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const router = express.Router();
 
 // CREATE a new user
 router.post("/", async (req, res) => {
+  const user1 = await User.findOne({ email: req.body.email });
+  if (user1) return res.status(400).send("User already registered.");
+
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const user = new User(req.body);
+
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (err) {
+    res.status(500).send("Error creating the user: " + err.message);
+  }
+});
+
+router.post("/register", async (req, res) => {
+  const user1 = await User.findOne({ email: req.body.email });
+  if (user1) return res.status(400).send("User already registered.");
+
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const user = new User(req.body);
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
 
   try {
     await user.save();

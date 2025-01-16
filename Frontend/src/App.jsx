@@ -5,13 +5,16 @@ import Dashboard from "./components/Dashboard";
 import Sidebar from "./components/SideBar";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
+import { AuthProvider } from "./Context/AuthContext";
 
 function App() {
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </Box>
+    <AuthProvider>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </Box>
+    </AuthProvider>
   );
 }
 
