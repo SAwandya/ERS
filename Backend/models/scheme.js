@@ -7,7 +7,7 @@ const schemeSchema = new mongoose.Schema({
     required: true,
   },
   allocation: {
-    type: Date,
+    type: Number,
     required: true,
   },
   onRequest: {
@@ -22,48 +22,49 @@ const schemeSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
-  perHeadAllowance: {
-    type: {
-      allowance: {
-        type: Number,
-        required: true,
-      },
-      currency: {
-        type: String,
-        required: true,
-        default: "LKR",
-      },
-    },
+  allowance: {
+    type: Number,
+    required: true,
   },
-  minimumQualification: {
+  currency: {
+    type: String,
+    required: true,
+    default: "LKR",
+  },
+  description: {
     type: String,
     required: true,
   },
-  startDate: {
-    type: Date,
-    required: true,
-  },
-  endDate: {
-    type: Date,
-    required: true,
-  },
+  supervisors: [
+    {
+      supervisor: { type: mongoose.Schema.Types.ObjectId, ref: "Supervisor" },
+      allocation: { type: String, required: true },
+    },
+  ],
 });
 
-const Interview = mongoose.model("Interview", interviewSchema);
+const Scheme = mongoose.model("Scheme", schemeSchema);
 
-function validateInterview(interview) {
+function validateScheme(scheme) {
   const schema = Joi.object({
-    label: Joi.string().required(),
-    date: Joi.date().required(),
-    time: Joi.string().required(),
-    schema: Joi.string().required(),
-    location: Joi.string().required(),
-    notes: Joi.string(),
-    user: Joi.objectId(),
+    name: Joi.string().required(),
+    allocation: Joi.number().required(),
+    onRequest: Joi.boolean().required(),
+    recurring: Joi.boolean().required(),
+    rotational: Joi.boolean().required(),
+    allowance: Joi.number().required(),
+    currency: Joi.string().required(),
+    description: Joi.string().required(),
+    supervisors: Joi.array().items(
+      Joi.object({
+        supervisor: Joi.string().required(),
+        allocation: Joi.number().required(),
+      })
+    ),
   });
 
-  return schema.validate(interview);
+  return schema.validate(scheme);
 }
 
-module.exports.Interview = Interview;
-module.exports.validate = validateInterview;
+module.exports.Scheme = Scheme;
+module.exports.validate = validateScheme;

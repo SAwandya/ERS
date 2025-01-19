@@ -2,6 +2,11 @@ const Joi = require("joi");
 const { default: mongoose } = require("mongoose");
 
 const userSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
+  },
+
   fullName: {
     type: String,
     required: true,
@@ -48,7 +53,6 @@ const userSchema = new mongoose.Schema({
   },
   ApplyAs: {
     type: String,
-    required: true,
   },
   olsubject1: {
     type: String,
@@ -145,12 +149,17 @@ const userSchema = new mongoose.Schema({
   trueAndCorrect: {
     type: Boolean,
   },
+  role: {
+    type: String,
+    default: "individual",
+  },
 });
 
 const User = mongoose.model("User", userSchema);
 
 function validateUser(user) {
   const schema = Joi.object({
+    username: Joi.string().min(3),
     gender: Joi.string(),
     fullName: Joi.string().min(3),
     password: Joi.string().min(6),
@@ -204,6 +213,7 @@ function validateUser(user) {
     referedBy: Joi.string(),
     cvApprovel: Joi.boolean(),
     trueAndCorrect: Joi.boolean(),
+    role: Joi.string(),
   });
 
   const result = schema.validate(user);

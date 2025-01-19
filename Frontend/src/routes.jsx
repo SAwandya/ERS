@@ -15,7 +15,16 @@ import LifeCycle from "./components/content/LifeCycle";
 import Requests from "./components/content/Requests";
 import AllInterviews from "./components/content/AllInterviews";
 import AddNewInterview from "./components/content/AddNewInterview";
-
+import InterviewDetails from "./components/content/InterviewDetails";
+import AllSupervisors from "./components/content/AllSupervisors";
+import ManageSupervisors from "./components/content/ManageSupervisors";
+import SignIn from "./pages/SignIn";
+import ProtectedRoute from "./components/ProtectedRoute";
+import IndividualHome from "./components/content/IndividualHome";
+import BankDetails from "./components/content/BankDetails";
+import Help from "./components/content/Help";
+import RoleBasedProtectedRoute from "./components/RoleBasedProtectedRoute";
+import Unauthorized from "./pages/Unauthorized";
 
 const router = createBrowserRouter([
   {
@@ -28,55 +37,155 @@ const router = createBrowserRouter([
       },
       {
         path: "/addnewcv",
-        element: <AddNewCv />,
+        element: (
+          <ProtectedRoute>
+            <AddNewCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/viewallcv",
-        element: <ViewAllCv />,
+        element: (
+          <ProtectedRoute>
+            <ViewAllCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/approvedcv",
-        element: <ApprovedCv />,
+        element: (
+          <ProtectedRoute>
+            <ApprovedCv />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewinstitute",
-        element: <AddNewInstitute />,
+        element: (
+          <ProtectedRoute>
+            <AddNewInstitute />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/instituterequest",
-        element: <InstitutesRegistrationRequest />,
+        element: (
+          <ProtectedRoute>
+            <InstitutesRegistrationRequest />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/internstatus",
-        element: <InternStatus />,
+        element: (
+          <ProtectedRoute>
+            <InternStatus />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/viewallschemes",
-        element: <ViewAllSchemes />,
+        element: (
+          <ProtectedRoute>
+            <ViewAllSchemes />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewschemes",
-        element: <AddNewSchemes />,
+        element: (
+          <ProtectedRoute>
+            <AddNewSchemes />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/assigntoscheme",
-        element: <AssignToScheme />,
+        element: (
+          <ProtectedRoute>
+            <AssignToScheme />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/lifecycle",
-        element: <LifeCycle />,
+        element: (
+          <ProtectedRoute>
+            <LifeCycle />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/requests",
-        element: <Requests />,
+        element: (
+          <ProtectedRoute>
+            <Requests />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/allinterviews",
-        element: <AllInterviews />,
+        element: (
+          <ProtectedRoute>
+            <AllInterviews />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/addnewinterview",
-        element: <AddNewInterview />,
+        element: (
+          <ProtectedRoute>
+            <AddNewInterview />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/interviewdetails/:id",
+        element: (
+          <ProtectedRoute>
+            <InterviewDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/allsupervisors/:id",
+        element: (
+          <ProtectedRoute>
+            <AllSupervisors />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/managesupervisors",
+        element: (
+          <ProtectedRoute>
+            <ManageSupervisors />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/individualhome",
+        element: (
+          <ProtectedRoute>
+            <IndividualHome />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/bankdetails",
+        element: (
+          <ProtectedRoute>
+            <BankDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/help",
+        element: (
+          <ProtectedRoute>
+            <Help />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
@@ -86,10 +195,14 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-  //   {
-  //     path: "/signin",
-  //     element: <SignInForm />,
-  //   },
+  {
+    path: "/signin",
+    element: <SignIn />,
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+  },
 ]);
 
 export default router;

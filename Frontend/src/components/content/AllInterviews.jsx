@@ -1,48 +1,54 @@
 import { Box, Button, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
+import axios from "axios";
+import ReusablePopup from "../ReusablePopup";
+import { useNavigate } from "react-router-dom";
 
 const AllInterviews = () => {
+  const [interviews, setInterviews] = useState([]); // State to store fetched data
+  const [loading, setLoading] = useState(true); // State to track loading
+  const [error, setError] = useState(""); // State to handle errors
 
-    const interviews = [
-      {
-        interviewLabel: "Software Developer Intern Interview",
-        dateTime: "2025-01-10 10:30 AM",
-        location: "Room 302, Tech Building",
-      },
-      {
-        interviewLabel: "Data Analyst Position Interview",
-        dateTime: "2025-01-11 02:00 PM",
-        location: "Room 208, Innovation Center",
-      },
-      {
-        interviewLabel: "Project Manager Role Interview",
-        dateTime: "2025-01-12 09:00 AM",
-        location: "Room 101, Corporate Wing",
-      },
-      {
-        interviewLabel: "UI/UX Designer Interview",
-        dateTime: "2025-01-13 01:00 PM",
-        location: "Room 405, Design Studio",
-      },
-      {
-        interviewLabel: "Marketing Specialist Interview",
-        dateTime: "2025-01-14 11:15 AM",
-        location: "Room 303, Marketing Department",
-      },
-    ];
+  const navigate = useNavigate();
 
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // Make a GET request to your API
+        const response = await axios.get("http://localhost:3000/api/interview");
+        setInterviews(response.data); // Update state with fetched data
+        setLoading(false); // Set loading to false
+      } catch (err) {
+        setError("Error fetching data"); // Handle errors
+        setLoading(false);
+      }
+    };
+
+    fetchUsers(); // Call the function
+  }, []); // Empty dependency array ensures this runs only once
+
+  const handleViewInterview = (row) => {
+    navigate(`/interviewdetails/${row.id}`);
+  };
 
   const rows = interviews.map((scheme) => ({
-    interviewLabel: scheme.interviewLabel,
-    dateTime: scheme.dateTime,
+    id: scheme._id,
+    interviewLabel: scheme.label,
+    date: scheme.date ? new Date(scheme.date).toDateString() : "",
+    time: scheme.time,
     location: scheme.location,
   }));
 
   const columns = [
     { id: "interviewLabel", label: "INTERVIEW LABEL", numeric: false },
-    { id: "dateTime", label: "DATE TIME", numeric: true },
-    { id: "recurring", label: "Recurring", numeric: true },
+    { id: "date", label: "DATE", numeric: true },
+    { id: "time", label: "TIME", numeric: true },
+    { id: "location", label: "LOCATION", numeric: true },
 
     {
       id: "edit",
@@ -66,7 +72,7 @@ const AllInterviews = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`View ${row.name}`)}
+          onClick={() => handleViewInterview(row)}
         >
           VIEW
         </Button>
@@ -87,7 +93,6 @@ const AllInterviews = () => {
       ),
     },
   ];
-
 
   return (
     <Box

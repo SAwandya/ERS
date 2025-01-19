@@ -4,6 +4,7 @@ import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import Swal from "sweetalert2";
 import ReusableForm from "../ReusableForm";
+import ReusablePopup from "../ReusablePopup";
 
 const ApprovedCv = () => {
   const [users, setUsers] = useState([]); // State to store fetched data
@@ -482,7 +483,8 @@ const ApprovedCv = () => {
           Approve CVs
         </Button>
       </Box>
-      <ReusableTable rows={rows} columns={columns} title="Nutrition Table" />
+      <ReusableTable rows={rows} columns={columns} />
+     
     </Box>
   );
 };
