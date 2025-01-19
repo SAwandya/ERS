@@ -3,21 +3,27 @@ import { Box, Container, Typography, Paper, Grid } from "@mui/material";
 import ReusableForm from "../components/ReusableForm";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-
   const { login } = useAuth();
+
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     console.log(data);
 
-    await axios.post("http://localhost:3000/api/auth", data).then((res) => {
+    await axios
+      .post("http://localhost:3000/api/auth", data)
+      .then((res) => {
         console.log(res.data);
         login(res.data);
+        navigate("/");
         alert("Logged in successfully");
-    }).catch((err) => {
+      })
+      .catch((err) => {
         console.log(err);
-    });
+      });
   };
 
   const fields1 = [
@@ -55,7 +61,12 @@ const SignIn = () => {
         <Paper elevation={3} sx={{ marginTop: "27px", borderRadius: "10px" }}>
           <Grid container spacing={4}>
             {/* Left side - Image */}
-            <Grid sx={{ backgroundColor: "#D9EAFD", borderRadius: "10px" }} item xs={12} md={6}>
+            <Grid
+              sx={{ backgroundColor: "#D9EAFD", borderRadius: "10px" }}
+              item
+              xs={12}
+              md={6}
+            >
               <Box
                 component="img"
                 src="../src/assets/loginicon.png"

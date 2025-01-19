@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../Context/AuthContext";
 
-const RoleBasedProtectedRoute = ({ allowedRoles }) => {
+const RoleBasedProtectedRoute = ({ allowedRoles, children }) => {
   const { authToken, getCurrentUser } = useAuth();
 
   if (!authToken) {
@@ -17,7 +17,7 @@ const RoleBasedProtectedRoute = ({ allowedRoles }) => {
   }
 
   // Render child routes if role matches
-  return <Outlet />;
+  return children;
 };
 
 export default RoleBasedProtectedRoute;

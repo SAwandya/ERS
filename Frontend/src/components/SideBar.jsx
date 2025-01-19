@@ -28,9 +28,7 @@ const Sidebar = () => {
 
   const { getCurrentUser, authToken } = useAuth();
 
-  if (authToken) {
-    const { role } = getCurrentUser();
-  }
+  const { role } = getCurrentUser();
 
   // State to track which dropdown is open
   const [openDropdowns, setOpenDropdowns] = useState({});

@@ -8,9 +8,10 @@ const Layout = () => {
   return (
     <>
       <Sidebar />
+
       <Box sx={{ flexGrow: 1 }}>
         <Topbar />
-        <Outlet/>
+        <Outlet />
       </Box>
     </>
   );
