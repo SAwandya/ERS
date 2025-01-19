@@ -9,6 +9,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import EditIcon from "@mui/icons-material/Edit";
 import HomeIcon from "@mui/icons-material/Home";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useNavigate } from 'react-router-dom';
 
 const StyledPaper = styled(Paper)(({ theme, color }) => ({
   padding: theme.spacing(3),
@@ -25,6 +26,9 @@ const StyledPaper = styled(Paper)(({ theme, color }) => ({
 }));
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 6 }}>
@@ -37,7 +41,10 @@ const Home = () => {
 
         <Grid container spacing={3} sx={{ mt: 2 }}>
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#4CAF50">
+            <StyledPaper
+              onClick={() => navigate("/approvedcv")}
+              color="#4CAF50"
+            >
               <PersonIcon />
               <Box>
                 <Typography variant="subtitle1">Manage</Typography>
@@ -47,7 +54,10 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#2196F3">
+            <StyledPaper
+              onClick={() => navigate("/allinterviews")}
+              color="#2196F3"
+            >
               <ChatIcon />
               <Box>
                 <Typography variant="subtitle1">Interviews</Typography>
@@ -67,7 +77,7 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#37474F">
+            <StyledPaper onClick={() => navigate("/lifecycle")} color="#37474F">
               <SearchIcon />
               <Box>
                 <Typography variant="subtitle1">Find Profile</Typography>
@@ -88,7 +98,10 @@ const Home = () => {
 
         <Grid container spacing={3} sx={{ mt: 2 }}>
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#03A9F4">
+            <StyledPaper
+              onClick={() => navigate("/viewallschemes")}
+              color="#03A9F4"
+            >
               <DescriptionIcon />
               <Box>
                 <Typography variant="subtitle1">Schemes</Typography>
@@ -98,7 +111,7 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#0288D1">
+            <StyledPaper onClick={() => navigate("/requests")} color="#0288D1">
               <EditIcon />
               <Box>
                 <Typography variant="subtitle1">Requests</Typography>
@@ -110,7 +123,10 @@ const Home = () => {
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <StyledPaper color="#01579B">
+            <StyledPaper
+              onClick={() => navigate("/instituterequest")}
+              color="#01579B"
+            >
               <HomeIcon />
               <Box>
                 <Typography variant="subtitle1">Institutes</Typography>
