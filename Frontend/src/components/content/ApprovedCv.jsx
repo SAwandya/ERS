@@ -346,6 +346,7 @@ const ApprovedCv = () => {
   }, []); // Empty dependency array ensures this runs only once
 
   const handleViewCv = (cvLink) => {
+    console.log(cvLink);
     setCvLink(cvLink);
   };
 

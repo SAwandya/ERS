@@ -1,10 +1,18 @@
-import { Box, Typography, TextField, Button, MenuItem, Select } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import ReusablePopup from "../ReusablePopup";
 import useEmployeeQueryStore from "../../store";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import ViewCv from "./ViewCv";
 
 const ViewAllCv = () => {
   const [age, setAge] = React.useState("");
@@ -15,6 +23,8 @@ const ViewAllCv = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedColumn, setSelectedColumn] = useState(""); // For column selection
   const [filterValue, setFilterValue] = useState(""); // For filter input
+
+  const [cvLink, setCvLink] = useState(null);
 
   const [open, setOpen] = useState(false);
 
@@ -67,6 +77,11 @@ const ViewAllCv = () => {
     fetchUsers(); // Call the function
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleViewCv = (cvLink) => {
+    console.log("Viewing CV", cvLink);
+    setCvLink(cvLink);
+  };
+
   const handleFilter = () => {
     if (selectedColumn && filterValue) {
       console.log("Filtering by", selectedColumn, "with value", filterValue);
@@ -92,12 +107,13 @@ const ViewAllCv = () => {
 
   // Example data
   const rows = filteredUsers.map((user) => ({
-    _id: user._id,
+    id: user._id,
     refno: user._id,
     nic: user.nic,
     user: user,
     interntype: user.ApplyAs || "N/A", // Fallback if interntype is not available
     fullName: user.fullName || "Unknown", // Use dynamic data or fallback value
+    cvLink: user.cvLink || "N/A",
     district: user.district || "N/A",
     institute: user.institute || "N/A",
     application_date: user.dateOfBirth
@@ -108,7 +124,7 @@ const ViewAllCv = () => {
   // Column definitions
   const columns = [
     { id: "nic", label: "NIC", numeric: false },
-    { id: "_id", label: "Ref No", numeric: false },
+    { id: "id", label: "Ref No", numeric: false },
     { id: "fullName", label: "Name", numeric: false },
     { id: "cvfrom", label: "CV From", numeric: true },
     { id: "interntype", label: "Intern Type", numeric: true },
@@ -122,7 +138,7 @@ const ViewAllCv = () => {
       numeric: false,
       renderCell: (row) => (
         <Button
-          color="primary"
+          color="secondary"
           variant="contained"
           onClick={() => alert(`Life cycle ${row.name}`)}
         >
@@ -139,7 +155,7 @@ const ViewAllCv = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`View ${row.name}`)}
+          onClick={() => handleViewCv(row.cvLink)}
         >
           View CV
         </Button>
@@ -151,11 +167,11 @@ const ViewAllCv = () => {
       numeric: false,
       renderCell: (row) => (
         <Button
-          color="primary"
+          color="error"
           variant="contained"
           onClick={() => alert(`Delete ${row.name}`)}
         >
-          View CV
+          Delete
         </Button>
       ),
     },
@@ -246,38 +262,55 @@ const ViewAllCv = () => {
         >
           View All Approved CVs
         </Typography>
-
         <Box
           sx={{
             display: "flex",
-            gap: 2,
-            marginBottom: 4,
+            justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Select
-            value={selectedColumn}
-            onChange={(e) => setSelectedColumn(e.target.value)}
-            displayEmpty
-            sx={{ minWidth: 150 }}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              marginBottom: 4,
+              alignItems: "center",
+            }}
           >
-            <MenuItem value="" disabled>
-              Select Column
-            </MenuItem>
-            <MenuItem value="_id">Ref No</MenuItem>
-            <MenuItem value="nic">NIC</MenuItem>
-            <MenuItem value="fullName">Name</MenuItem>
-            <MenuItem value="district">District</MenuItem>
-            <MenuItem value="institute">Institute</MenuItem>
-          </Select>
-          <TextField
-            value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
-            placeholder="Enter value to filter"
-            size="small"
-          />
-          <Button variant="contained" onClick={handleFilter}>
-            Filter
+            <Select
+              value={selectedColumn}
+              onChange={(e) => setSelectedColumn(e.target.value)}
+              displayEmpty
+              sx={{ minWidth: 150 }}
+            >
+              <MenuItem value="" disabled>
+                Select Column
+              </MenuItem>
+              <MenuItem value="_id">Ref No</MenuItem>
+              <MenuItem value="nic">NIC</MenuItem>
+              <MenuItem value="fullName">Name</MenuItem>
+              <MenuItem value="district">District</MenuItem>
+              <MenuItem value="institute">Institute</MenuItem>
+            </Select>
+            <TextField
+              value={filterValue}
+              onChange={(e) => setFilterValue(e.target.value)}
+              placeholder="Enter value to filter"
+              size="small"
+            />
+            <Button variant="contained" onClick={handleFilter}>
+              Filter
+            </Button>
+            <Button variant="contained" onClick={() => setFilteredUsers(users)}>
+              Clear Filter
+            </Button>
+          </Box>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "green", marginBottom: 4, gap: 2 }}
+            onClick={handleSheduleInterview}
+          >
+            Shedule Interview
           </Button>
         </Box>
 
@@ -289,6 +322,7 @@ const ViewAllCv = () => {
           onSubmit={onSubmit}
         />
       </Box>
+      {cvLink && <ViewCv cvLink={cvLink} />}
     </>
   );
 };
