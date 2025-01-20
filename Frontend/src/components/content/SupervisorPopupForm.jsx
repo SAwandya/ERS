@@ -18,10 +18,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
 const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
-  const [supervisors, setSupervisors] = useState([]); // Store fetched data
-  const [selectedSupervisors, setSelectedSupervisors] = useState([]); // Track selected supervisors
-
-  const { control, handleSubmit, reset } = useForm({
+  const [supervisors, setSupervisors] = useState([]); // Store all supervisors
+  const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
       managers: [
         {
@@ -32,9 +30,17 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
     },
   });
 
-  const [schemeSupervisors, setSchemeSupervisors] = useState([]);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "managers",
+  });
+
+  const selectedSupervisors = watch("managers").map(
+    (manager) => manager.supervisor
+  );
 
   useEffect(() => {
+    // Fetch available supervisors
     const fetchSupervisors = async () => {
       try {
         const response = await axios.get(
@@ -42,7 +48,7 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
         );
         setSupervisors(response.data);
       } catch (err) {
-        console.error("Error fetching data:", err);
+        console.error("Error fetching supervisors:", err);
       }
     };
 
@@ -50,67 +56,51 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
   }, []);
 
   useEffect(() => {
+    // Fetch assigned supervisors for the scheme
     const fetchSchemeSupervisors = async () => {
       try {
         const response = await axios.get(
           `http://localhost:3000/api/scheme/${schemeId}/supervisors`
         );
-        setSchemeSupervisors(response.data);
 
-        // Set default values for the form based on fetched scheme supervisors
         const defaultManagers = response.data.map((item) => ({
           supervisor: item.supervisor._id,
           allocation: item.allocation,
         }));
 
-        reset({ managers: defaultManagers }); // Reset form values
-        setSelectedSupervisors(defaultManagers.map((item) => item.supervisor)); // Set selected supervisors
+        reset({ managers: defaultManagers });
       } catch (err) {
         console.error("Error fetching scheme supervisors:", err);
       }
     };
 
-    if (schemeId) fetchSchemeSupervisors();
+    if (schemeId) {
+      fetchSchemeSupervisors();
+    }
   }, [schemeId, reset]);
-
-
-  
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "managers",
-  });
-
-  const onSubmit = async (data) => {
-    console.log("Form Data:", data.managers);
-
-    console.log("Scheme ID:", schemeId);
-
-    await axios
-      .put(`http://localhost:3000/api/scheme/${schemeId}/supervisors`, {
-        supervisors: data.managers,
-      })
-      .then((response) => {
-        console.log("Response:", response.data);
-        onClose();
-      })
-      .catch((err) => {
-        console.error("An error occurred:", err.message);
-      });
-  };
-
-  const handleSupervisorChange = (value, index) => {
-    const updatedSelected = [...selectedSupervisors];
-    updatedSelected[index] = value;
-    setSelectedSupervisors(updatedSelected);
-  };
 
   const getFilteredSupervisors = (index) => {
     return supervisors.filter(
       (supervisor) =>
-        !selectedSupervisors.includes(supervisor._id) ||
-        selectedSupervisors[index] === supervisor._id
+        !selectedSupervisors.some(
+          (selected, selectedIndex) =>
+            selected === supervisor._id && selectedIndex !== index
+        )
     );
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/scheme/${schemeId}/supervisors`,
+        {
+          supervisors: data.managers,
+        }
+      );
+      onClose(); // Close the dialog on successful submission
+    } catch (err) {
+      console.error("Error submitting data:", err);
+    }
   };
 
   return (
@@ -143,15 +133,13 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
                     <Controller
                       name={`managers.${index}.supervisor`}
                       control={control}
-                      defaultValue=""
                       render={({ field }) => (
                         <Select
                           {...field}
                           label="Select Supervisor"
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                            handleSupervisorChange(event.target.value, index);
-                          }}
+                          onChange={(event) =>
+                            field.onChange(event.target.value)
+                          }
                         >
                           {getFilteredSupervisors(index).map((supervisor) => (
                             <MenuItem
@@ -169,13 +157,13 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
                   <Controller
                     name={`managers.${index}.allocation`}
                     control={control}
-                    defaultValue=""
                     render={({ field }) => (
                       <TextField
                         {...field}
                         label="Allocation"
                         type="number"
                         sx={{ width: "200px" }}
+                        inputProps={{ min: 0 }}
                       />
                     )}
                   />
@@ -186,34 +174,31 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
                     </IconButton>
                   )}
                 </Box>
-
-                <Box sx={{ mt: 1 }}>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() =>
-                      append({
-                        supervisor: "",
-                        allocation: "",
-                      })
-                    }
-                    sx={{ mt: 1 }}
-                  >
-                    Add Another Manager at Level {index + 1}
-                  </Button>
-                </Box>
               </Box>
             ))}
 
-            <Box sx={{ mt: 4, borderTop: "1px solid #ccc", pt: 2 }}>
+            <Box sx={{ mt: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() =>
+                  append({
+                    supervisor: "",
+                    allocation: "",
+                  })
+                }
+              >
+                Add Another Manager
+              </Button>
+            </Box>
+
+            <Box sx={{ mt: 4 }}>
               <Button
                 variant="contained"
                 color="primary"
                 type="submit"
-                size="large"
                 fullWidth
               >
-                Submit Manager Scheme
+                Submit
               </Button>
             </Box>
           </form>
@@ -223,8 +208,7 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
           sx={{
             display: "flex",
             justifyContent: "flex-end",
-            gap: 2,
-            marginTop: 4,
+            mt: 2,
           }}
         >
           <Button
