@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -7,6 +7,7 @@ import ReusableForm from "../ReusableForm";
 import ReusablePopup from "../ReusablePopup";
 import ViewCv from "./ViewCv";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const ApprovedCv = () => {
   const [users, setUsers] = useState([]); // State to store fetched data
@@ -14,6 +15,10 @@ const ApprovedCv = () => {
   const [error, setError] = useState(""); // State to handle errors
 
   const [applyas, setApplyas] = React.useState(null);
+
+  const bottomRef = useRef(null); // Ref to the element at the bottom
+
+  const navigate = useNavigate();
 
   const formFields = [
     { type: "title", label: "About User" },
@@ -279,6 +284,18 @@ const ApprovedCv = () => {
       .put(`http://localhost:3000/api/user/${selectedUserId}`, filteredData)
       .then((res) => {
         console.log(res);
+        toast.success("Update Successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        navigate("/approvedcv");
       })
       .catch((err) => {
         console.log(err);
@@ -289,6 +306,7 @@ const ApprovedCv = () => {
     console.log(user);
     setSelectedUser(user);
     setSelectedUserId(id);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleApprove = async (id, label) => {
@@ -379,7 +397,7 @@ const ApprovedCv = () => {
       numeric: false,
       renderCell: (row) => (
         <Button
-          color="primary"
+          color="secondary"
           variant="contained"
           onClick={() => alert(`Editing ${row.name}`)}
         >
@@ -458,11 +476,26 @@ const ApprovedCv = () => {
   if (error) return <div>{error}</div>;
 
   return selectedUser ? (
-    <ReusableForm
-      fields={formFields}
-      defaultValues={defaultValues}
-      onSubmit={onSubmit}
-    />
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
+      <ReusableForm
+        fields={formFields}
+        defaultValues={defaultValues}
+        onSubmit={onSubmit}
+      />
+    </>
   ) : (
     <>
       <Box

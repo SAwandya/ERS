@@ -50,7 +50,7 @@ const Sidebar = () => {
       subItems: [
         { text: "Add New CV", path: "/addnewcv" },
         { text: "View All CV", path: "/viewallcv" },
-        { text: "Approved CV", path: "/approvedcv" },
+        { text: "Approve CV", path: "/approvedcv" },
       ],
       role: "admin",
     },
@@ -179,6 +179,7 @@ const Sidebar = () => {
               "&::-webkit-scrollbar": {
                 display: "none", // Hides scrollbar in Chrome, Edge, Safari
               },
+              cursor: "pointer",
             }}
             key={item.text}
           >
