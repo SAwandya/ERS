@@ -11,7 +11,22 @@ import {
   RadioGroup,
   Radio,
   Switch,
+  Button,
 } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Box, styled } from "@mui/system";
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 
 const InputField = ({
   name,
@@ -36,8 +51,17 @@ const InputField = ({
       error: !!error,
       sx: { mb: 1 },
       onChange: (e) => {
-        field.onChange(e); // Update react-hook-form state
-        if (onChange) onChange(e); // Call custom onChange handler
+        if (type === "pdf") {
+          let reader = new FileReader();
+          reader.readAsDataURL(e.target.files[0]);
+          reader.onload = () => {
+            field.onChange(reader.result); // Update react-hook-form state
+            if (onChange) onChange(reader.result); // Call custom onChange handler
+          };
+        } else {
+          field.onChange(e); // Update react-hook-form state
+          if (onChange) onChange(e); // Call custom onChange handler
+        }
       },
     };
 
@@ -118,6 +142,63 @@ const InputField = ({
             }
             label={label}
           />
+        );
+      case "pdf":
+        return (
+          <Box>
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+              sx={{
+                backgroundColor: "#5C2FC2",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#4925A3",
+                },
+              }}
+            >
+              {label}
+              <VisuallyHiddenInput
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => {
+                      field.onChange(reader.result); // Store base64 PDF
+                      if (onChange) onChange(reader.result);
+                    };
+                  }
+                }}
+                type="file"
+                accept=".pdf"
+              />
+            </Button>
+            {field.value && (
+              <Box
+                style={{
+                  marginTop: "8px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  overflow: "hidden",
+                  width: "100%",
+                  maxWidth: "300px",
+                  height: "400px",
+                }}
+              >
+                <iframe
+                  src={field.value}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    border: "none",
+                  }}
+                  title="PDF Preview"
+                />
+              </Box>
+            )}
+          </Box>
         );
       default:
         return <TextField {...commonProps} type={type} label={label} />;

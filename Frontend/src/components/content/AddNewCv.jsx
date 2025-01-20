@@ -233,23 +233,24 @@ const AddNewCv = () => {
       options: [
         { value: true, label: "Yes" },
         { value: false, label: "No" },
+
       ],
       rules: { required: "This field is required" },
     },
 
     { type: "title", label: "Upload Documents" },
 
-    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "file" },
-    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "file" },
+    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "pdf" },
+    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "pdf" },
     {
       name: "policeCertificateLink",
       label: "POLICE CLEARANCE REPORT (OPTIONAL)",
-      type: "file",
+      type: "pdf",
     },
     {
       name: "InternshipRequestLetterLink",
       label: "INTERNSHIP REQUEST LETTER (INSTITUTE)",
-      type: "file",
+      type: "pdf",
     },
     {
       name: "trueAndCorrect",

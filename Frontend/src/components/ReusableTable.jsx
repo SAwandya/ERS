@@ -219,10 +219,12 @@ function ReusableTable({ rows, columns, title }) {
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    onClick={(event) => handleClick(event, row.id)}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox checked={isItemSelected} />
+                      <Checkbox
+                        onClick={(event) => handleClick(event, row.id)}
+                        checked={isItemSelected}
+                      />
                     </TableCell>
                     {columns.map((column) => (
                       <TableCell

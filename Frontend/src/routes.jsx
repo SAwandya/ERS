@@ -25,6 +25,7 @@ import BankDetails from "./components/content/BankDetails";
 import Help from "./components/content/Help";
 import RoleBasedProtectedRoute from "./components/RoleBasedProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
+import ViewCv from "./components/content/ViewCv";
 
 const router = createBrowserRouter([
   {
