@@ -25,6 +25,7 @@ import BankDetails from "./components/content/BankDetails";
 import Help from "./components/content/Help";
 import RoleBasedProtectedRoute from "./components/RoleBasedProtectedRoute";
 import Unauthorized from "./pages/Unauthorized";
+import ViewCv from "./components/content/ViewCv";
 
 const router = createBrowserRouter([
   {
@@ -38,153 +39,153 @@ const router = createBrowserRouter([
       {
         path: "/addnewcv",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AddNewCv />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/viewallcv",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <ViewAllCv />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/approvedcv",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <ApprovedCv />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/addnewinstitute",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AddNewInstitute />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/instituterequest",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <InstitutesRegistrationRequest />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/internstatus",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <InternStatus />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/viewallschemes",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <ViewAllSchemes />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/addnewschemes",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AddNewSchemes />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/assigntoscheme",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AssignToScheme />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/lifecycle",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <LifeCycle />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/requests",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <Requests />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/allinterviews",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AllInterviews />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/addnewinterview",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AddNewInterview />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/interviewdetails/:id",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <InterviewDetails />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/allsupervisors/:id",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <AllSupervisors />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/managesupervisors",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["admin"]}>
             <ManageSupervisors />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/individualhome",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["individual"]}>
             <IndividualHome />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/bankdetails",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["individual"]}>
             <BankDetails />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
       {
         path: "/help",
         element: (
-          <ProtectedRoute>
+          <RoleBasedProtectedRoute allowedRoles={["individual"]}>
             <Help />
-          </ProtectedRoute>
+          </RoleBasedProtectedRoute>
         ),
       },
     ],

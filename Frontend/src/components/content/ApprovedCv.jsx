@@ -5,6 +5,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import ReusableForm from "../ReusableForm";
 import ReusablePopup from "../ReusablePopup";
+import ViewCv from "./ViewCv";
+import { useNavigate } from "react-router-dom";
 
 const ApprovedCv = () => {
   const [users, setUsers] = useState([]); // State to store fetched data
@@ -228,17 +230,17 @@ const ApprovedCv = () => {
 
     { type: "title", label: "Upload Documents" },
 
-    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "file" },
-    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "file" },
+    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "pdf" },
+    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "pdf" },
     {
       name: "policeCertificateLink",
       label: "POLICE CLEARANCE REPORT (OPTIONAL)",
-      type: "file",
+      type: "pdf",
     },
     {
       name: "InternshipRequestLetterLink",
       label: "INTERNSHIP REQUEST LETTER (INSTITUTE)",
-      type: "file",
+      type: "pdf",
     },
     {
       name: "trueAndCorrect",
@@ -257,6 +259,8 @@ const ApprovedCv = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const [selectedUserId, setSelectedUserId] = useState(null);
+
+  const [cvLink, setCvLink] = useState(null);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -341,6 +345,11 @@ const ApprovedCv = () => {
     fetchUsers(); // Call the function
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleViewCv = (cvLink) => {
+    console.log(cvLink);
+    setCvLink(cvLink);
+  };
+
   // Example data
   const rows = users.map((user) => ({
     id: user._id,
@@ -348,7 +357,8 @@ const ApprovedCv = () => {
     user: user,
     name: user.fullName || "Unknown", // Use dynamic data or fallback value
     mobile: user.mobileNo || "N/A",
-    cv: user.cvLink || "No CV",
+    cv: user.cvLink ? "Yes" : "No CV",
+    cvLink: user.cvLink,
     district: user.district || "N/A",
     application_date: user.dateOfBirth
       ? new Date(user.dateOfBirth).toISOString().split("T")[0] // Extract only the date
@@ -427,7 +437,7 @@ const ApprovedCv = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`Editing ${row.name}`)}
+          onClick={() => handleViewCv(row.cvLink)}
         >
           View CV
         </Button>
@@ -454,38 +464,40 @@ const ApprovedCv = () => {
       onSubmit={onSubmit}
     />
   ) : (
-    <Box
-      sx={{
-        padding: 7,
-        maxWidth: "1250px",
-        margin: "30px auto",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-      }}
-    >
-      {" "}
+    <>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: 4,
+          padding: 7,
+          maxWidth: "1250px",
+          margin: "30px auto",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
         }}
       >
-        <Typography
+        {" "}
+        <Box
           sx={{
-            textAlign: "left",
-            color: "#4C585B",
-            fontSize: 24,
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: 4,
           }}
         >
-          Approve CVs (CVs to be approved)
-        </Typography>
-        <Button color="primary" variant="contained">
-          Approve CVs
-        </Button>
+          <Typography
+            sx={{
+              textAlign: "left",
+              color: "#4C585B",
+              fontSize: 24,
+            }}
+          >
+            Approve CVs (CVs to be approved)
+          </Typography>
+          <Button color="primary" variant="contained">
+            Approve CVs
+          </Button>
+        </Box>
+        <ReusableTable rows={rows} columns={columns} />
       </Box>
-      <ReusableTable rows={rows} columns={columns} />
-     
-    </Box>
+      {cvLink && <ViewCv cvLink={cvLink} />}
+    </>
   );
 };
 

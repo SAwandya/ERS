@@ -1,15 +1,18 @@
-import { Box, Typography, TextField, Button } from "@mui/material";
-import Grid2 from "@mui/material/Grid";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import ReusableTable from "../ReusableTable";
 import axios from "axios";
 import ReusablePopup from "../ReusablePopup";
 import useEmployeeQueryStore from "../../store";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import ViewCv from "./ViewCv";
 
 const ViewAllCv = () => {
   const [age, setAge] = React.useState("");
@@ -17,6 +20,11 @@ const ViewAllCv = () => {
   const [loading, setLoading] = useState(true); // State to track loading
   const [error, setError] = useState(""); // State to handle errors
   const [interviews, setInterview] = useState([]); // State to store fetched data
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedColumn, setSelectedColumn] = useState(""); // For column selection
+  const [filterValue, setFilterValue] = useState(""); // For filter input
+
+  const [cvLink, setCvLink] = useState(null);
 
   const [open, setOpen] = useState(false);
 
@@ -57,6 +65,8 @@ const ViewAllCv = () => {
         // Make a GET request to your API
         const response = await axios.get("http://localhost:3000/api/user");
         setUsers(response.data); // Update state with fetched data
+        setFilteredUsers(response.data); // Initialize with all users
+
         setLoading(false); // Set loading to false
       } catch (err) {
         setError("Error fetching data"); // Handle errors
@@ -67,14 +77,43 @@ const ViewAllCv = () => {
     fetchUsers(); // Call the function
   }, []); // Empty dependency array ensures this runs only once
 
+  const handleViewCv = (cvLink) => {
+    console.log("Viewing CV", cvLink);
+    setCvLink(cvLink);
+  };
+
+  const handleFilter = () => {
+    if (selectedColumn && filterValue) {
+      console.log("Filtering by", selectedColumn, "with value", filterValue);
+      const newFilteredUsers = filteredUsers.filter((user) =>
+        user[selectedColumn]
+          ?.toString()
+          .toLowerCase()
+          .includes(filterValue.toLowerCase())
+      );
+      console.log("Filtered users old", filteredUsers);
+      console.log("Filtered users", newFilteredUsers);
+      setFilteredUsers(newFilteredUsers);
+      setFilterValue(""); // Clear filter input after applying
+    } else {
+      toast.warn("Please select a column and enter a value to filter!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        theme: "colored",
+      });
+    }
+  };
+
   // Example data
-  const rows = users.map((user) => ({
+  const rows = filteredUsers.map((user) => ({
     id: user._id,
     refno: user._id,
     nic: user.nic,
     user: user,
     interntype: user.ApplyAs || "N/A", // Fallback if interntype is not available
-    name: user.fullName || "Unknown", // Use dynamic data or fallback value
+    fullName: user.fullName || "Unknown", // Use dynamic data or fallback value
+    cvLink: user.cvLink || "N/A",
     district: user.district || "N/A",
     institute: user.institute || "N/A",
     application_date: user.dateOfBirth
@@ -85,8 +124,8 @@ const ViewAllCv = () => {
   // Column definitions
   const columns = [
     { id: "nic", label: "NIC", numeric: false },
-    { id: "refno", label: "Ref No", numeric: false },
-    { id: "name", label: "Name", numeric: false },
+    { id: "id", label: "Ref No", numeric: false },
+    { id: "fullName", label: "Name", numeric: false },
     { id: "cvfrom", label: "CV From", numeric: true },
     { id: "interntype", label: "Intern Type", numeric: true },
     { id: "district", label: "District", numeric: true },
@@ -99,7 +138,7 @@ const ViewAllCv = () => {
       numeric: false,
       renderCell: (row) => (
         <Button
-          color="primary"
+          color="secondary"
           variant="contained"
           onClick={() => alert(`Life cycle ${row.name}`)}
         >
@@ -116,7 +155,7 @@ const ViewAllCv = () => {
         <Button
           color="primary"
           variant="contained"
-          onClick={() => alert(`View ${row.name}`)}
+          onClick={() => handleViewCv(row.cvLink)}
         >
           View CV
         </Button>
@@ -128,11 +167,11 @@ const ViewAllCv = () => {
       numeric: false,
       renderCell: (row) => (
         <Button
-          color="primary"
+          color="error"
           variant="contained"
           onClick={() => alert(`Delete ${row.name}`)}
         >
-          View CV
+          Delete
         </Button>
       ),
     },
@@ -223,178 +262,58 @@ const ViewAllCv = () => {
         >
           View All Approved CVs
         </Typography>
-        <Grid2 container spacing={6}>
-          {/* Dropdown */}
-          <Grid2 item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Search By</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid2>
-
-          {/* Text Field */}
-          <Grid2 item xs={12} md={3}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              marginBottom: 4,
+              alignItems: "center",
+            }}
+          >
+            <Select
+              value={selectedColumn}
+              onChange={(e) => setSelectedColumn(e.target.value)}
+              displayEmpty
+              sx={{ minWidth: 150 }}
+            >
+              <MenuItem value="" disabled>
+                Select Column
+              </MenuItem>
+              <MenuItem value="_id">Ref No</MenuItem>
+              <MenuItem value="nic">NIC</MenuItem>
+              <MenuItem value="fullName">Name</MenuItem>
+              <MenuItem value="district">District</MenuItem>
+              <MenuItem value="institute">Institute</MenuItem>
+            </Select>
             <TextField
-              id="standard-basic"
-              label="Standard"
-              variant="outlined"
-              fullWidth // Ensures full width
+              value={filterValue}
+              onChange={(e) => setFilterValue(e.target.value)}
+              placeholder="Enter value to filter"
+              size="small"
             />
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#615EFC" }}
-              fullWidth
-              color="success"
-            >
-              Add New CV
+            <Button variant="contained" onClick={handleFilter}>
+              Filter
             </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#615EFC" }}
-              fullWidth
-              color="success"
-              onClick={() => handleSheduleInterview()}
-            >
-              Shedule Interviews
-            </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={6}>
-            <TextField
-              id="standard-basic"
-              label="Standard"
-              variant="outlined"
-              fullWidth // Ensures full width
-            />
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#091057" }}
-              fullWidth
-              color="success"
-            >
-              Search
-            </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#091057" }}
-              fullWidth
-              color="success"
-            >
+            <Button variant="contained" onClick={() => setFilteredUsers(users)}>
               Clear Filter
             </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={4}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#091057" }}
-              fullWidth
-              color="success"
-            >
-              From Institutes
-            </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={4}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#091057" }}
-              fullWidth
-              color="success"
-            >
-              From Individuals
-            </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={4}>
-            <Button
-              variant="contained"
-              sx={{ height: "100%", backgroundColor: "#091057" }}
-              fullWidth
-              color="success"
-            >
-              All Approved Cvs
-            </Button>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid2>
-          <Grid2 item xs={12} md={3}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid2>
-        </Grid2>
+          </Box>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: "green", marginBottom: 4, gap: 2 }}
+            onClick={handleSheduleInterview}
+          >
+            Shedule Interview
+          </Button>
+        </Box>
+
         <ReusableTable rows={rows} columns={columns} />
         <ReusablePopup
           open={open}
@@ -403,6 +322,7 @@ const ViewAllCv = () => {
           onSubmit={onSubmit}
         />
       </Box>
+      {cvLink && <ViewCv cvLink={cvLink} />}
     </>
   );
 };
