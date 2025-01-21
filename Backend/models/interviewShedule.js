@@ -12,7 +12,7 @@ const interviewSheduleSchema = new mongoose.Schema({
     ref: "User",
   },
   status: {
-    type: Boolean, //pass of fail
+    type: Boolean, //pass or fail
   },
 });
 

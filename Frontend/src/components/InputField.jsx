@@ -12,6 +12,7 @@ import {
   Radio,
   Switch,
   Button,
+  InputLabel,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { Box, styled } from "@mui/system";
@@ -69,6 +70,7 @@ const InputField = ({
       case "select":
         return (
           <FormControl fullWidth>
+            <InputLabel>{label}</InputLabel>
             <Select {...commonProps} label={label}>
               {options?.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -79,7 +81,16 @@ const InputField = ({
           </FormControl>
         );
       case "date":
-        return <TextField {...commonProps} type="date" label={label} />;
+        return (
+          <TextField
+            {...commonProps}
+            type="date"
+            label={label}
+            InputLabelProps={{
+              shrink: true, // Ensures the label is always above the input
+            }}
+          />
+        );
       case "radio":
         return (
           <FormControl>

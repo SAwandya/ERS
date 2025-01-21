@@ -74,7 +74,7 @@ const AllInterviews = () => {
           variant="contained"
           onClick={() => handleViewInterview(row)}
         >
-          VIEW
+          VIEW Interns
         </Button>
       ),
     },
@@ -117,13 +117,14 @@ const AllInterviews = () => {
             fontSize: 24,
           }}
         >
-          All Interviews
+          Created Interviews
         </Typography>
-        <Button color="primary" variant="contained">
+        <Button
+          color="primary"
+          onClick={() => navigate("/addnewinterview")}
+          variant="contained"
+        >
           Add new interview
-        </Button>
-        <Button color="primary" variant="contained">
-          Shedule interview
         </Button>
       </Box>
       <ReusableTable rows={rows} columns={columns} />
