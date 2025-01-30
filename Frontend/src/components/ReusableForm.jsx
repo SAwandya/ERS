@@ -3,9 +3,12 @@ import { useForm } from "react-hook-form";
 import InputField from "./InputField";
 import { Button, Box, Grid, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
+import { useNavigate } from "react-router-dom";
 
 const ReusableForm = ({ fields, onSubmit, defaultValues = {} }) => {
   const { handleSubmit, control } = useForm({ defaultValues });
+
+  const navigate = useNavigate();
 
   return (
     <Box sx={{ padding: 2, maxWidth: "800px", margin: "0 auto" }}>
@@ -77,8 +80,11 @@ const ReusableForm = ({ fields, onSubmit, defaultValues = {} }) => {
             }
           })}
         </Grid>
-        <Box sx={{ mt: 2, textAlign: "right" }}>
-          <Button variant="contained" type="submit" sx={{ minWidth: "120px" }}>
+        <Box sx={{ mt: 2, textAlign: "right", display: "flex", justifyContent: "end", gap: 2 }}>
+          <Button variant="contained" color="warning" onClick={() => navigate(-1)} sx={{ minWidth: "120px" }}>
+            Cancel
+          </Button>
+          <Button variant="contained" type="submit" color="success" sx={{ minWidth: "120px" }}>
             Submit
           </Button>
         </Box>
