@@ -2,6 +2,7 @@ import React from "react";
 import ReusableForm from "../ReusableForm";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const AddNewCv = () => {
   const [applyas, setApplyas] = React.useState(null);
@@ -20,6 +21,17 @@ const AddNewCv = () => {
         console.log(res);
       })
       .catch((err) => {
+        toast.error(`${err.response.data}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
         console.log(err);
       });
   };
@@ -58,7 +70,31 @@ const AddNewCv = () => {
     {
       name: "district",
       label: "DISTRICT",
-      type: "text",
+      type: "select",
+      options: [
+        { value: "colombo", label: "Colombo" },
+        { value: "gampaha", label: "Gampaha" },
+        { value: "kalutara", label: "Kalutara" },
+        { value: "kandy", label: "Kandy" },
+        { value: "galle", label: "Galle" },
+        { value: "matara", label: "Matara" },
+        { value: "hambantota", label: "Hambantota" },
+        { value: "jaffna", label: "Jaffna" },
+        { value: "batticaloa", label: "Batticaloa" },
+        { value: "ratnapura", label: "Ratnapura" },
+        { value: "badulla", label: "Badulla" },
+        { value: "kegalle", label: "Kegalle" },
+        { value: "anuradhapura", label: "Anuradhapura" },
+        { value: "polonnaruwa", label: "Polonnaruwa" },
+        { value: "kurunegala", label: "Kurunegala" },
+        { value: "puttalam", label: "Puttalam" },
+        { value: "nuwaraeliya", label: "Nuwara Eliya" },
+        { value: "ampara", label: "Ampara" },
+        { value: "mullaitivu", label: "Mullaitivu" },
+        { value: "kilinochchi", label: "Kilinochchi" },
+        { value: "mannar", label: "Mannar" },
+        { value: "vavuniya", label: "Vavuniya" },
+      ],
       rules: { required: "District is required" },
     },
     {
@@ -138,15 +174,87 @@ const AddNewCv = () => {
         "O/L RESULT FOR MATHS, SCIENCE AND ENGLISH ARE COMPULSORY. PLEASE USE THIS FORMAT TO ENTER YOUR RESULTS - (SUBJECT: RESULT)",
       gridSize: { md: 12 },
     },
-    { name: "olsubject1", label: "Subject 01", type: "text" },
-    { name: "olsubject2", label: "Subject 02", type: "text" },
-    { name: "olsubject3", label: "Subject 03", type: "text" },
-    { name: "olsubject4", label: "Subject 04", type: "text" },
-    { name: "olsubject5", label: "Subject 05", type: "text" },
-    { name: "olsubject6", label: "Subject 06", type: "text" },
-    { name: "olsubject7", label: "Subject 07", type: "text" },
-    { name: "olsubject8", label: "Subject 08", type: "text" },
-    { name: "olsubject9", label: "Subject 09", type: "text" },
+    {
+      name: "olsubject1",
+      label: "Subject 01",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 01 is required" }
+          : null,
+    },
+    {
+      name: "olsubject2",
+      label: "Subject 02",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 02 is required" }
+          : null,
+    },
+    {
+      name: "olsubject3",
+      label: "Subject 03",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 03 is required" }
+          : null,
+    },
+    {
+      name: "olsubject4",
+      label: "Subject 04",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 04 is required" }
+          : null,
+    },
+    {
+      name: "olsubject5",
+      label: "Subject 05",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 05 is required" }
+          : null,
+    },
+    {
+      name: "olsubject6",
+      label: "Subject 06",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 06 is required" }
+          : null,
+    },
+    {
+      name: "olsubject7",
+      label: "Subject 07",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 07 is required" }
+          : null,
+    },
+    {
+      name: "olsubject8",
+      label: "Subject 08",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 08 is required" }
+          : null,
+    },
+    {
+      name: "olsubject9",
+      label: "Subject 09",
+      type: "text",
+      rules:
+        applyas === "data entry operator"
+          ? { required: "Subject 09 is required" }
+          : null,
+    },
 
     { type: "title", label: "" },
 
@@ -199,8 +307,8 @@ const AddNewCv = () => {
             label: "PREFERRED LOCATION",
             type: "select",
             options: [
-              { value: "head_office", label: "HEAD OFFICE" },
-              { value: "matara_branch", label: "MATARA BRANCH" },
+              { value: "head office", label: "HEAD OFFICE" },
+              { value: "regional office", label: "REGIONAL OFFICE" },
             ],
             rules: { required: "Preferred location is required" },
           },
@@ -233,15 +341,24 @@ const AddNewCv = () => {
       options: [
         { value: true, label: "Yes" },
         { value: false, label: "No" },
-
       ],
       rules: { required: "This field is required" },
     },
 
     { type: "title", label: "Upload Documents" },
 
-    { name: "cvLink", label: "ATTACH YOUR UPDATED CV", type: "pdf" },
-    { name: "nicLink", label: "NIC (BOTH SIDES)", type: "pdf" },
+    {
+      name: "cvLink",
+      label: "ATTACH YOUR UPDATED CV",
+      type: "pdf",
+      rules: { required: "CV is required" },
+    },
+    {
+      name: "nicLink",
+      label: "NIC (BOTH SIDES)",
+      type: "pdf",
+      rules: { required: "NIC is required" },
+    },
     {
       name: "policeCertificateLink",
       label: "POLICE CLEARANCE REPORT (OPTIONAL)",
@@ -251,6 +368,13 @@ const AddNewCv = () => {
       name: "InternshipRequestLetterLink",
       label: "INTERNSHIP REQUEST LETTER (INSTITUTE)",
       type: "pdf",
+      rules: { required: "Internship request letter is required" },
+    },
+    {
+      name: "referedBy",
+      label: "REFERRED BY",
+      type: "text",
+      gridSize: { md: 12 },
     },
     {
       name: "trueAndCorrect",
@@ -264,30 +388,52 @@ const AddNewCv = () => {
       ],
       rules: { required: "You must agree to proceed" },
     },
+    {
+      name: "cvApprovel",
+      label: "CV APPROVAL",
+      type: "switch",
+      gridSize: { md: 12 },
+    },
   ];
 
   return (
-    <Box
-      sx={{
-        padding: 7,
-        maxWidth: "1000px",
-        margin: "0 auto",
-        boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-      }}
-    >
-      <Typography
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
+      <Box
         sx={{
-          textAlign: "left",
-          mb: 4,
-          color: "#2e2e2e",
-          fontSize: 24,
-          fontWeight: "bold",
+          padding: 7,
+          maxWidth: "1060px",
+          margin: "20px auto",
+          boxShadow: "0 0 10px rgba(0,0,0,0.1)",
         }}
       >
-        ADD NEW CV
-      </Typography>
-      <ReusableForm fields={fields1} onSubmit={onSubmit} />
-    </Box>
+        <Typography
+          sx={{
+            textAlign: "left",
+            mb: 4,
+            color: "#2e2e2e",
+            fontSize: 24,
+            ml: 10,
+            fontWeight: "bold",
+          }}
+        >
+          ADD NEW CV
+        </Typography>
+        <ReusableForm fields={fields1} onSubmit={onSubmit} />
+      </Box>
+    </>
   );
 };
 

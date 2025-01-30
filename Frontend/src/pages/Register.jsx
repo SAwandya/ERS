@@ -15,6 +15,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     const formData = {
       ...data,
@@ -22,8 +24,6 @@ const Register = () => {
     };
 
     const { confirmPassword, ...updatedData } = formData;
-
-    const navigate = useNavigate();
 
     await axios
       .post("http://localhost:3000/api/user/register", updatedData)

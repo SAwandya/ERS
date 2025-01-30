@@ -50,7 +50,7 @@ const Sidebar = () => {
       subItems: [
         { text: "Add New CV", path: "/addnewcv" },
         { text: "View All CV", path: "/viewallcv" },
-        { text: "Approve CV", path: "/approvedcv" },
+        { text: "CVs to Approve", path: "/approvedcv" },
       ],
       role: "admin",
     },
@@ -166,19 +166,23 @@ const Sidebar = () => {
       </Box>
       <List
         sx={{
-          scrollbarWidth: "none", // Hides scrollbar in Firefox
+          maxHeight: "calc(100vh - 80px)", // Adjust height to fit inside the sidebar
+          overflowY: "auto", // Enables scrolling
           "&::-webkit-scrollbar": {
-            display: "none", // Hides scrollbar in Chrome, Edge, Safari
+            width: "5px", // Make the scrollbar smaller
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888", // Change scrollbar color
+            borderRadius: "10px", // Round the scrollbar
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#555", // Darker color on hover
           },
         }}
       >
         {filteredMenuItems.map((item) => (
           <Box
             sx={{
-              scrollbarWidth: "none", // Hides scrollbar in Firefox
-              "&::-webkit-scrollbar": {
-                display: "none", // Hides scrollbar in Chrome, Edge, Safari
-              },
               cursor: "pointer",
             }}
             key={item.text}

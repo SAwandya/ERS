@@ -17,7 +17,7 @@ import { useFieldArray, useForm, Controller } from "react-hook-form";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
-const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
+const SupervisorPopupForm = ({ open, onClose, schemeId, allocation }) => {
   const [supervisors, setSupervisors] = useState([]); // Store all supervisors
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
@@ -38,6 +38,14 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
   const selectedSupervisors = watch("managers").map(
     (manager) => manager.supervisor
   );
+
+  // Watch all managers' allocation values
+  const allocations = watch("managers").map(
+    (manager) => Number(manager.allocation) || 0
+  );
+
+  // Calculate total allocation
+  const totalAllocation = allocations.reduce((sum, value) => sum + value, 0);
 
   useEffect(() => {
     // Fetch available supervisors
@@ -90,6 +98,9 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
   };
 
   const onSubmit = async (data) => {
+    if (totalAllocation > allocation) {
+      return; // Prevent submission if allocation exceeds limit
+    }
     try {
       await axios.put(
         `http://localhost:3000/api/scheme/${schemeId}/supervisors`,
@@ -177,6 +188,14 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
               </Box>
             ))}
 
+            {/* Error Message for Exceeding Allocation */}
+            {totalAllocation > allocation && (
+              <Typography color="error" sx={{ mt: 2 }}>
+                Total allocation ({totalAllocation}) exceeds the allowed limit (
+                {allocation}).
+              </Typography>
+            )}
+
             <Box sx={{ mt: 2 }}>
               <Button
                 variant="contained"
@@ -197,6 +216,7 @@ const SupervisorPopupForm = ({ open, onClose, schemeId }) => {
                 color="primary"
                 type="submit"
                 fullWidth
+                disabled={totalAllocation > allocation} // Disable submit if exceeded
               >
                 Submit
               </Button>

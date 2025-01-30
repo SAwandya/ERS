@@ -144,6 +144,7 @@ const userSchema = new mongoose.Schema({
   },
   cvApprovel: {
     type: Boolean,
+    default: false,
   },
   trueAndCorrect: {
     type: Boolean,
