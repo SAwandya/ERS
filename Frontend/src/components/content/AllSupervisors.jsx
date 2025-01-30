@@ -108,8 +108,8 @@ const AllSupervisors = () => {
               }}
             >
               <Typography>
-                Name: {manager.supervisor.name} ({manager.supervisor.supId}) Self:{" "}
-                {manager.supervisor.supId} Hierarchy: {manager.hierarchy}
+                Name: {manager.supervisor.name} ({manager.supervisor.supId})
+                Self: {manager.supervisor.supId} Hierarchy: {manager.hierarchy}
               </Typography>
               <Stack direction="row" spacing={1}>
                 <Button
@@ -140,6 +140,7 @@ const AllSupervisors = () => {
         schemeId={id}
         open={open}
         onClose={() => setOpen(false)}
+        allocation={schemes.allocation}
       />
     </Box>
   );
