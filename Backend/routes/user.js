@@ -97,6 +97,15 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/allusers/approved", async (req, res) => {
+  try {
+    const users = await User.find({ cvApprovel: false });
+    res.status(200).send(users);
+  } catch (err) {
+    res.status(500).send("Error fetching users: " + err.message);
+  }
+});
+
 // GET a single user by ID
 router.get("/:id", async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
@@ -110,6 +119,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Error fetching the user: " + err.message);
   }
 });
+
 
 // UPDATE a user by ID
 router.put("/:id", async (req, res) => {

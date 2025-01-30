@@ -351,7 +351,9 @@ const ApprovedCv = () => {
     const fetchUsers = async () => {
       try {
         // Make a GET request to your API
-        const response = await axios.get("http://localhost:3000/api/user");
+        const response = await axios.get(
+          "http://localhost:3000/api/user/allusers/approved"
+        );
         setUsers(response.data); // Update state with fetched data
         setLoading(false); // Set loading to false
       } catch (err) {

@@ -131,7 +131,7 @@ const ViewAllCv = () => {
     { id: "district", label: "District", numeric: true },
     { id: "application_date", label: "Application date", numeric: true },
     { id: "institute", label: "Institute", numeric: true },
-
+    
     {
       id: "lifecycle",
       label: "Life cycle",
@@ -291,6 +291,7 @@ const ViewAllCv = () => {
               <MenuItem value="fullName">Name</MenuItem>
               <MenuItem value="district">District</MenuItem>
               <MenuItem value="institute">Institute</MenuItem>
+              <MenuItem value="cvApprovel">Approvel(True or False)</MenuItem>
             </Select>
             <TextField
               value={filterValue}
