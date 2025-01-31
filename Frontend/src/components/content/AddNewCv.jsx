@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import ReusableForm from "../ReusableForm";
 import { Box, Typography } from "@mui/material";
 import axios from "axios";
 import { ToastContainer, toast, Bounce } from "react-toastify";
+import { CircularProgress, Backdrop  } from "@mui/material";
+
 
 const AddNewCv = () => {
   const [applyas, setApplyas] = React.useState(null);
+
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
     const formData = {
@@ -13,27 +17,40 @@ const AddNewCv = () => {
       trueAndCorrect: data.trueAndCorrect[0],
     };
 
+    setLoading(true);
+
     console.log(formData);
 
-    await axios
-      .post("http://localhost:3000/api/user", formData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        toast.error(`${err.response.data}`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
-        console.log(err);
+    try {
+      const res = await axios.post("http://localhost:3000/api/user", formData);
+      console.log(res);
+      toast.success("CV added successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
       });
+    } catch (err) {
+      toast.error(`${err.response?.data || "Something went wrong"}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      console.error(err);
+    } finally {
+      setLoading(false); // Hide loading after API response
+    }
   };
 
   const fields1 = [
@@ -398,6 +415,7 @@ const AddNewCv = () => {
 
   return (
     <>
+    
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -411,6 +429,10 @@ const AddNewCv = () => {
         theme="colored"
         transition={Bounce}
       />
+       {/* Loading Indicator */}
+       <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Box
         sx={{
           padding: 7,
