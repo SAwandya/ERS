@@ -9,7 +9,7 @@ const interviewSheduleSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Cv",
   },
   status: {
     type: Boolean, //pass or fail

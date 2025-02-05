@@ -11,6 +11,7 @@ const shedule = require("./routes/shedule");
 const supervisor = require("./routes/supervisor");
 const assignment = require("./routes/assignment");
 const auth = require("./routes/auth");
+const cv = require("./routes/cv");
 
 const mongo_url = process.env.MONGO_URL;
 
@@ -34,6 +35,7 @@ app.use(
 );
 
 app.use("/api/user", user);
+app.use("/api/cv", cv)
 app.use("/api/interview", interview);
 app.use("/api/scheme", scheme);
 app.use("/api/schedule", shedule);
