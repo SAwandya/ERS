@@ -4,6 +4,7 @@ import ReusableForm from "../components/ReusableForm";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from "react-toastify";
 
 const SignIn = () => {
   const { login } = useAuth();
@@ -16,12 +17,33 @@ const SignIn = () => {
     await axios
       .post("http://localhost:3000/api/auth", data)
       .then((res) => {
-        console.log(res.data);
+        toast.success("Successfully logged in", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
         login(res.data);
         navigate("/");
         alert("Logged in successfully");
       })
       .catch((err) => {
+        toast.error(err.response.data, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
         console.log(err);
       });
   };
@@ -57,6 +79,19 @@ const SignIn = () => {
         justifyContent: "center",
       }}
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
       <Container>
         <Paper elevation={3} sx={{ marginTop: "27px", borderRadius: "10px" }}>
           <Grid container spacing={4}>
