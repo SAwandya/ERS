@@ -1,6 +1,6 @@
 const express = require("express");
-const { User, validate } = require("../models/user");
-const { Cv } = require("../models/cv");
+const { User } = require("../models/user");
+const { Cv, validate } = require("../models/cv");
 const cloudinary = require("cloudinary").v2;
 
 const router = express.Router();

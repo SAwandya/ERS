@@ -111,14 +111,24 @@ const cvSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
- 
 });
 
 const Cv = mongoose.model("Cv", cvSchema);
 
 function validateCv(cv) {
   const schema = Joi.object({
-    user: Joi.string(),
+    password: Joi.string(),
+    username: Joi.string(),
+    fullName: Joi.string().required(),
+    nameWithInitials: Joi.string().required(),
+    postalAddress: Joi.string().required(),
+    district: Joi.string().required(),
+    nic: Joi.string().required(),
+    dateOfBirth: Joi.date().required(),
+    mobileNo: Joi.string().required(),
+    email: Joi.string().required(),
+    trueAndCorrect: Joi.boolean(),
+    role: Joi.string(),
     gender: Joi.string(),
     location: Joi.string(),
     LandPhoneNo: Joi.string()

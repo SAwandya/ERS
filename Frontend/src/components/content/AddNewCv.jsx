@@ -16,7 +16,7 @@ const AddNewCv = () => {
     console.log(formData);
 
     await axios
-      .post("http://localhost:3000/api/user", formData)
+      .post("http://localhost:3000/api/cv", formData)
       .then((res) => {
         console.log(res);
       })
